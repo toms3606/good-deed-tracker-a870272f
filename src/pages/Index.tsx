@@ -18,7 +18,7 @@ const Index: React.FC = () => {
               <HandHeart className="h-10 w-10 text-primary animate-pulse-gentle" />
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tighter">
-              Track Your Journey of Kindness
+              Your Journey of Kindness
             </h1>
             <p className="max-w-[700px] text-lg md:text-xl text-muted-foreground">
               Document, organize, and reflect on the positive impact you're making in the world.
