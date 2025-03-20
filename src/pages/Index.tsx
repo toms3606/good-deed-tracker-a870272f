@@ -60,7 +60,7 @@ const Index: React.FC = () => {
                 },
                 {
                   icon: <BarChart4 className="h-10 w-10" />,
-                  title: "Track Your Impact",
+                  title: "Good Deeds Impact",
                   description: "Gain perspective on your impact with beautiful visualizations and trends.",
                 }
               ].map((feature, index) => (
