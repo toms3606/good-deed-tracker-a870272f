@@ -7,11 +7,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Deed } from '@/types/deed';
 import { addDeed, DEED_CATEGORIES } from '@/utils/deedUtils';
 
-type FormData = Omit<Deed, 'id' | 'date'> & { date: string };
+type FormData = Omit<Deed, 'id' | 'date'> & { 
+  date: string;
+  repeatDaily?: boolean;
+  repeatWeekly?: boolean;
+  repeatMonthly?: boolean;
+};
 
 interface AddDeedFormProps {
   onClose: () => void;
@@ -35,6 +41,9 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
       category: '',
       impact: 'small',
       completed: false,
+      repeatDaily: false,
+      repeatWeekly: false,
+      repeatMonthly: false,
     }
   });
   
@@ -45,8 +54,11 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
     setIsSubmitting(true);
     
     try {
+      // Extract repeat options before sending to addDeed
+      const { repeatDaily, repeatWeekly, repeatMonthly, ...deedData } = data;
+      
       const newDeed = {
-        ...data,
+        ...deedData,
         date: new Date(data.date),
       };
       
@@ -68,7 +80,7 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
         <Label htmlFor="title">Title</Label>
         <Input
           id="title"
-          placeholder="What did you do?"
+          placeholder="What will you do? What did you do?"
           {...register('title', { required: 'Title is required' })}
         />
         {errors.title && (
@@ -108,6 +120,33 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
         {errors.date && (
           <p className="text-sm text-destructive">{errors.date.message}</p>
         )}
+      </div>
+      
+      <div className="space-y-2">
+        <Label className="block mb-2">This Deed repeats</Label>
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="repeatDaily" 
+              {...register('repeatDaily')}
+            />
+            <Label htmlFor="repeatDaily" className="font-normal">Daily</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="repeatWeekly" 
+              {...register('repeatWeekly')}
+            />
+            <Label htmlFor="repeatWeekly" className="font-normal">Weekly</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="repeatMonthly" 
+              {...register('repeatMonthly')}
+            />
+            <Label htmlFor="repeatMonthly" className="font-normal">Monthly</Label>
+          </div>
+        </div>
       </div>
       
       <div className="space-y-2">
