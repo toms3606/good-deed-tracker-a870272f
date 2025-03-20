@@ -22,8 +22,8 @@ const features = [
 
 const FeaturesSection: React.FC = () => {
   return (
-    <section className="relative py-20 md:py-32 bg-muted/30 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern opacity-10 -z-10"></div>
+    <section className="relative py-20 md:py-32 bg-green-50 overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-20 -z-10"></div>
       
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid gap-12 md:gap-16">
@@ -35,11 +35,11 @@ const FeaturesSection: React.FC = () => {
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-xl border border-border/50 shadow-sm p-6 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-shadow animate-slide-up"
+                className="bg-white dark:bg-gray-800 backdrop-blur-md rounded-xl border border-primary/20 shadow-sm p-6 flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-shadow animate-slide-up"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="p-2 bg-primary/10 rounded-full">
-                  {feature.icon}
+                  {React.cloneElement(feature.icon, { className: "h-10 w-10 text-primary" })}
                 </div>
                 <h3 className="text-xl font-medium">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
@@ -48,6 +48,10 @@ const FeaturesSection: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Adding more visible background elements */}
+      <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full bg-blue-200/40 blur-3xl -z-10"></div>
+      <div className="absolute bottom-1/4 right-0 w-64 h-64 rounded-full bg-green-200/40 blur-3xl -z-10"></div>
     </section>
   );
 };

@@ -4,7 +4,7 @@ import { HandHeart } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="py-12 border-t">
+    <footer className="py-12 border-t bg-slate-50">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
