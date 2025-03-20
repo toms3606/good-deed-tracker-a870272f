@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -10,8 +11,8 @@ const Index: React.FC = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16 md:pt-40 md:pb-24">
+      {/* Hero Section with curved bottom */}
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center text-center space-y-4 animate-fade-in">
             <div className="inline-block p-2 bg-primary/10 rounded-full mb-4">
@@ -31,13 +32,14 @@ const Index: React.FC = () => {
           </div>
         </div>
         
-        {/* Background decor */}
+        {/* Hero background shapes */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-primary/5 to-secondary/5 blur-3xl -z-10" />
+        <div className="absolute -bottom-10 left-0 right-0 h-24 bg-background" style={{ borderRadius: '50% 50% 0 0 / 100% 100% 0 0' }}></div>
       </section>
       
-      {/* Image Gallery Section */}
-      <section className="py-12 md:py-16 overflow-hidden">
-        <div className="container px-4 md:px-6">
+      {/* Image Gallery Section with gradient background */}
+      <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-b from-background to-muted/30">
+        <div className="container px-4 md:px-6 relative z-10">
           <h2 className="text-2xl md:text-4xl font-bold text-center mb-4">Start with a Simple Deed</h2>
           <h3 className="text-xl md:text-2xl font-medium text-center mb-8 text-muted-foreground">Everyday Acts of Kindness Make a World of Difference</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -83,7 +85,7 @@ const Index: React.FC = () => {
                 title: "Volunteer" 
               }
             ].map((image, index) => (
-              <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
+              <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up glass-card" style={{ animationDelay: `${index * 100}ms` }}>
                 <AspectRatio ratio={3/2}>
                   <img 
                     src={image.src} 
@@ -98,11 +100,21 @@ const Index: React.FC = () => {
             ))}
           </div>
         </div>
+        
+        {/* Decorative circles */}
+        <div className="absolute top-20 -left-16 w-48 h-48 rounded-full bg-secondary/10 blur-2xl -z-0"></div>
+        <div className="absolute bottom-10 -right-16 w-72 h-72 rounded-full bg-primary/10 blur-3xl -z-0"></div>
       </section>
       
-      {/* Features Section */}
-      <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
+      {/* Features Section with patterned background */}
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-muted/30 -z-10"></div>
+        <div className="absolute inset-0 -z-10 opacity-[0.05]" style={{ 
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='currentColor' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          backgroundSize: '120px 120px'
+        }}></div>
+        
+        <div className="container px-4 md:px-6 relative z-10">
           <div className="grid gap-12 md:gap-16">
             <div className="text-center space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold">Simple. Meaningful. Impactful.</h2>
@@ -128,7 +140,7 @@ const Index: React.FC = () => {
               ].map((feature, index) => (
                 <div 
                   key={index} 
-                  className="glass-card p-6 flex flex-col items-center text-center space-y-4 animate-slide-up"
+                  className="glass-card p-6 flex flex-col items-center text-center space-y-4 animate-slide-up shadow-md hover:shadow-lg transition-shadow"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="p-2 bg-primary/10 rounded-full">
@@ -143,10 +155,19 @@ const Index: React.FC = () => {
         </div>
       </section>
       
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-muted/50">
+      {/* CTA Section with wave pattern */}
+      <section className="relative py-20 md:py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/50 to-background -z-10"></div>
+        
+        {/* Wave pattern at the top */}
+        <div className="absolute top-0 left-0 right-0 -z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none" className="w-full h-20 md:h-32 text-muted/30">
+            <path fill="currentColor" fillOpacity="1" d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+          </svg>
+        </div>
+        
         <div className="container px-4 md:px-6">
-          <div className="glass-card p-8 md:p-12 flex flex-col items-center text-center space-y-6 animate-scale-in">
+          <div className="glass-card p-8 md:p-12 flex flex-col items-center text-center space-y-6 animate-scale-in shadow-lg border border-primary/10">
             <div className="inline-flex gap-1">
               {[...Array(3)].map((_, i) => (
                 <Star 
