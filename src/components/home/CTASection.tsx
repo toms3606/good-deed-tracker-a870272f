@@ -10,7 +10,7 @@ const CTASection: React.FC = () => {
       {/* Background image with overlay */}
       <div className="absolute inset-0 -z-10">
         <img 
-          src="/lovable-uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png" 
+          src="/uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png" 
           alt="Volunteers with donation boxes" 
           className="w-full h-full object-cover"
         />
