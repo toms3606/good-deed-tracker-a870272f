@@ -39,7 +39,8 @@ const Index: React.FC = () => {
       {/* Image Gallery Section */}
       <section className="py-12 md:py-16 overflow-hidden">
         <div className="container px-4 md:px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Everyday Acts of Kindness Make a World of Difference</h2>
+          <h2 className="text-2xl md:text-4xl font-bold text-center mb-4">Start with a Simple Deed</h2>
+          <h3 className="text-xl md:text-2xl font-medium text-center mb-8 text-muted-foreground">Everyday Acts of Kindness Make a World of Difference</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {[
               { 
