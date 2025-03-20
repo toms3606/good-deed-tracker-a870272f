@@ -22,8 +22,8 @@ const features = [
 
 const FeaturesSection: React.FC = () => {
   return (
-    <section className="relative py-20 md:py-32 bg-green-50 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern opacity-20 -z-10"></div>
+    <section className="relative py-20 md:py-32 bg-gradient-to-r from-green-100 to-blue-100 overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-30 -z-10"></div>
       
       <div className="container px-4 md:px-6 relative z-10">
         <div className="grid gap-12 md:gap-16">
@@ -50,8 +50,8 @@ const FeaturesSection: React.FC = () => {
       </div>
       
       {/* Adding more visible background elements */}
-      <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full bg-blue-200/40 blur-3xl -z-10"></div>
-      <div className="absolute bottom-1/4 right-0 w-64 h-64 rounded-full bg-green-200/40 blur-3xl -z-10"></div>
+      <div className="absolute top-1/4 left-0 w-64 h-64 rounded-full bg-blue-200/70 blur-3xl -z-10"></div>
+      <div className="absolute bottom-1/4 right-0 w-64 h-64 rounded-full bg-green-200/70 blur-3xl -z-10"></div>
     </section>
   );
 };

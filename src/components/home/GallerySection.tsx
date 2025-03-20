@@ -47,7 +47,7 @@ const galleryImages = [
 
 const GallerySection: React.FC = () => {
   return (
-    <section className="relative py-16 md:py-24 bg-gradient-to-b from-blue-50 via-blue-100/50 to-green-50">
+    <section className="relative py-16 md:py-24 bg-gradient-to-b from-blue-50 via-blue-100/50 to-white">
       <div className="container px-4 md:px-6 relative z-10">
         <h2 className="text-2xl md:text-4xl font-bold text-center mb-4">Start with a Simple Deed</h2>
         <h3 className="text-xl md:text-2xl font-medium text-center mb-8 text-muted-foreground">Everyday Acts of Kindness Make a World of Difference</h3>
