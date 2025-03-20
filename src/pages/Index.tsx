@@ -43,7 +43,7 @@ const Index: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {[
               { 
-                src: "https://images.unsplash.com/photo-1593476123561-9516f2097158",
+                src: "https://images.unsplash.com/photo-1517341783513-b54922ac4be5",
                 alt: "Person helping elderly woman with groceries",
                 title: "Helping the Elderly"
               },
