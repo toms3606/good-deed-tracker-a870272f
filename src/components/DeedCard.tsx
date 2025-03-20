@@ -10,6 +10,7 @@ import { Check, Heart, Star } from 'lucide-react';
 interface DeedCardProps {
   deed: Deed;
   onComplete?: (id: string) => void;
+  onEdit?: (deed: Deed) => void;
 }
 
 const impactIcons = {
@@ -24,7 +25,7 @@ const impactColors = {
   large: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
 };
 
-const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete }) => {
+const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete, onEdit }) => {
   return (
     <Card className="glass-card card-hover overflow-hidden animate-scale-in">
       <CardHeader className="pb-2">
@@ -40,7 +41,12 @@ const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete }) => {
                 />
               </div>
             )}
-            <CardTitle className="text-lg">{deed.title}</CardTitle>
+            <CardTitle 
+              className={`text-lg ${!deed.completed && onEdit ? "cursor-pointer hover:text-primary transition-colors" : ""}`}
+              onClick={() => !deed.completed && onEdit && onEdit(deed)}
+            >
+              {deed.title}
+            </CardTitle>
           </div>
           <Badge className={`${impactColors[deed.impact]} flex items-center gap-1`}>
             {impactIcons[deed.impact]} {deed.impact}

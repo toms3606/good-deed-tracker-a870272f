@@ -15,6 +15,8 @@ import AddDeedForm from '@/components/AddDeedForm';
 const Dashboard: React.FC = () => {
   const [deeds, setDeeds] = useState<Deed[]>([]);
   const [addDeedDialogOpen, setAddDeedDialogOpen] = useState(false);
+  const [editDeedDialogOpen, setEditDeedDialogOpen] = useState(false);
+  const [currentDeed, setCurrentDeed] = useState<Deed | null>(null);
   
   useEffect(() => {
     const loadDeeds = () => {
@@ -41,6 +43,18 @@ const Dashboard: React.FC = () => {
     
     setDeeds(deeds.map(d => d.id === id ? updatedDeed : d));
     toast.success('Deed marked as complete!');
+  };
+  
+  const handleEditDeed = (deed: Deed) => {
+    setCurrentDeed(deed);
+    setEditDeedDialogOpen(true);
+  };
+  
+  const handleDeedUpdated = (updatedDeed: Deed) => {
+    setDeeds(deeds.map(d => d.id === updatedDeed.id ? updatedDeed : d));
+    setEditDeedDialogOpen(false);
+    setCurrentDeed(null);
+    toast.success('Deed updated successfully!');
   };
   
   // Filter deeds
@@ -86,6 +100,7 @@ const Dashboard: React.FC = () => {
                     key={deed.id}
                     deed={deed}
                     onComplete={handleCompleteDeed}
+                    onEdit={handleEditDeed}
                   />
                 ))}
               </div>
@@ -119,6 +134,23 @@ const Dashboard: React.FC = () => {
             <DialogTitle>Add a New Good Deed</DialogTitle>
           </DialogHeader>
           <AddDeedForm onClose={() => setAddDeedDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+      
+      {/* Edit Deed Dialog */}
+      <Dialog open={editDeedDialogOpen} onOpenChange={setEditDeedDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Good Deed</DialogTitle>
+          </DialogHeader>
+          {currentDeed && (
+            <AddDeedForm 
+              onClose={() => setEditDeedDialogOpen(false)} 
+              initialDeed={currentDeed}
+              isEditing={true}
+              onUpdate={handleDeedUpdated}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </div>

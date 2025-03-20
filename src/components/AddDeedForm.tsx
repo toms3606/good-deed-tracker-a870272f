@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Deed } from '@/types/deed';
-import { addDeed, DEED_CATEGORIES } from '@/utils/deedUtils';
+import { addDeed, updateDeed, DEED_CATEGORIES } from '@/utils/deedUtils';
 
 type FormData = Omit<Deed, 'id' | 'date'> & { 
   date: string;
@@ -21,9 +21,12 @@ type FormData = Omit<Deed, 'id' | 'date'> & {
 
 interface AddDeedFormProps {
   onClose: () => void;
+  initialDeed?: Deed;
+  isEditing?: boolean;
+  onUpdate?: (deed: Deed) => void;
 }
 
-const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
+const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose, initialDeed, isEditing = false, onUpdate }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const {
@@ -32,6 +35,7 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<FormData>({
     defaultValues: {
       title: '',
@@ -47,6 +51,22 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
     }
   });
   
+  // Set form values when editing
+  useEffect(() => {
+    if (initialDeed && isEditing) {
+      reset({
+        title: initialDeed.title,
+        description: initialDeed.description || '',
+        date: initialDeed.date.toISOString().split('T')[0],
+        recipient: initialDeed.recipient,
+        category: initialDeed.category,
+        impact: initialDeed.impact,
+        completed: initialDeed.completed,
+        // Repeat options would be set here if they were part of the Deed type
+      });
+    }
+  }, [initialDeed, isEditing, reset]);
+  
   const selectedCategory = watch('category');
   const selectedImpact = watch('impact');
   
@@ -54,20 +74,31 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
     setIsSubmitting(true);
     
     try {
-      // Extract repeat options before sending to addDeed
+      // Extract repeat options before sending
       const { repeatDaily, repeatWeekly, repeatMonthly, ...deedData } = data;
       
-      const newDeed = {
+      const deedWithDate = {
         ...deedData,
         date: new Date(data.date),
       };
       
-      addDeed(newDeed);
-      
-      toast.success('Good deed added successfully!');
-      onClose();
+      if (isEditing && initialDeed && onUpdate) {
+        // Update existing deed
+        const updatedDeed = {
+          ...deedWithDate,
+          id: initialDeed.id,
+        };
+        
+        updateDeed(updatedDeed);
+        onUpdate(updatedDeed);
+      } else {
+        // Add new deed
+        addDeed(deedWithDate);
+        toast.success('Good deed added successfully!');
+        onClose();
+      }
     } catch (error) {
-      toast.error('Failed to add good deed');
+      toast.error(isEditing ? 'Failed to update good deed' : 'Failed to add good deed');
       console.error(error);
     } finally {
       setIsSubmitting(false);
@@ -198,7 +229,9 @@ const AddDeedForm: React.FC<AddDeedFormProps> = ({ onClose }) => {
           Cancel
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Adding...' : 'Add Deed'}
+          {isSubmitting 
+            ? (isEditing ? 'Updating...' : 'Adding...') 
+            : (isEditing ? 'Update Deed' : 'Add Deed')}
         </Button>
       </div>
     </form>
