@@ -44,38 +44,46 @@ const Index: React.FC = () => {
             {[
               { 
                 src: "https://images.unsplash.com/photo-1593476123561-9516f2097158",
-                alt: "Person helping elderly woman with groceries" 
+                alt: "Person helping elderly woman with groceries",
+                title: "Helping the Elderly"
               },
               { 
                 src: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee", 
-                alt: "Woman walking dogs in the park" 
+                alt: "Woman walking dogs in the park",
+                title: "Pet Care"
               },
               { 
                 src: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea",
-                alt: "Person planting in community garden" 
+                alt: "Person planting in community garden",
+                title: "Community Gardening" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
-                alt: "Volunteers painting a fence" 
+                alt: "Volunteers painting a fence",
+                title: "Volunteer Projects" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1581579438747-b22fec2f16d7",
-                alt: "People helping someone move furniture" 
+                alt: "People helping someone move furniture",
+                title: "Helping Neighbors Move" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1610459628376-09648f537b20",
-                alt: "Person cleaning up local beach" 
+                alt: "Person cleaning up local beach",
+                title: "Beach Cleanup" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1517849706995-7c35746d9567",
-                alt: "Neighbors building a community shed" 
+                alt: "Neighbors building a community shed",
+                title: "Building Together" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1609139159425-5338e9cb0fda",
-                alt: "Person shoveling snow from elderly neighbor's driveway" 
+                alt: "Person shoveling snow from elderly neighbor's driveway",
+                title: "Winter Help" 
               }
             ].map((image, index) => (
-              <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up card-hover" style={{ animationDelay: `${index * 100}ms` }}>
+              <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
                 <AspectRatio ratio={3/2}>
                   <img 
                     src={image.src} 
@@ -83,6 +91,9 @@ const Index: React.FC = () => {
                     className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
                   />
                 </AspectRatio>
+                <div className="p-3 text-center bg-card">
+                  <h3 className="font-medium text-sm">{image.title}</h3>
+                </div>
               </div>
             ))}
           </div>
