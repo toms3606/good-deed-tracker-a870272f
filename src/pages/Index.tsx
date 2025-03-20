@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { HandHeart, Star, Calendar, BarChart4 } from 'lucide-react';
+import { HandHeart, Star, Calendar, BarChart4, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
 const Index: React.FC = () => {
@@ -50,17 +50,17 @@ const Index: React.FC = () => {
               {[
                 {
                   icon: <HandHeart className="h-10 w-10" />,
-                  title: "Record Your Good Deeds",
+                  title: "Plan Your Good Deeds",
                   description: "Document each act of kindness with details, categories, and impact levels.",
                 },
                 {
-                  icon: <Calendar className="h-10 w-10" />,
-                  title: "Calendar View",
-                  description: "See your good deeds organized by date and track your consistency.",
+                  icon: <Sparkles className="h-10 w-10" />,
+                  title: "Good Deeds Ideas",
+                  description: "Get inspiration for acts of kindness with our suggestions and guidance.",
                 },
                 {
                   icon: <BarChart4 className="h-10 w-10" />,
-                  title: "Insightful Statistics",
+                  title: "Track Your Impact",
                   description: "Gain perspective on your impact with beautiful visualizations and trends.",
                 }
               ].map((feature, index) => (
