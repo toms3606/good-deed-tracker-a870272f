@@ -4,7 +4,7 @@ import { getDeedStats, getDeeds } from '@/utils/deedUtils';
 import { DeedStats, Deed } from '@/types/deed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart } from '@/components/ui/line-chart';
-import { HandHeart, TrendingUp, Calendar, Award, CalendarRange, Search, CheckCheck, Circle, List } from 'lucide-react';
+import { HandHeart, TrendingUp, Calendar, Award, CalendarRange, Search } from 'lucide-react';
 import { format, sub, isAfter, isBefore, parseISO } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -54,9 +54,52 @@ const Stats: React.FC = () => {
   const [selectedRange, setSelectedRange] = useState<string>("6months");
   
   useEffect(() => {
-    setStats(getDeedStats());
-    setDeeds(getDeeds());
-  }, []);
+    const allDeeds = getDeeds();
+    setDeeds(allDeeds);
+    
+    // Filter stats based on status
+    let filteredDeedsForStats = allDeeds;
+    if (statusFilter !== 'all') {
+      filteredDeedsForStats = allDeeds.filter(deed => 
+        statusFilter === 'completed' ? deed.completed : !deed.completed
+      );
+    }
+    
+    // Calculate stats using filtered deeds
+    const filteredStats = calculateStats(filteredDeedsForStats);
+    setStats(filteredStats);
+  }, [statusFilter]);
+  
+  // Calculate stats based on filtered deeds
+  const calculateStats = (deedsToCalculate: Deed[]): DeedStats => {
+    const statResult: DeedStats = {
+      total: deedsToCalculate.length,
+      byCategory: {},
+      byMonth: {},
+      byImpact: { small: 0, medium: 0, large: 0 }
+    };
+    
+    // Calculate categories, months, and impact stats
+    deedsToCalculate.forEach(deed => {
+      // Categories
+      if (deed.category) {
+        statResult.byCategory[deed.category] = (statResult.byCategory[deed.category] || 0) + 1;
+      }
+      
+      // Months
+      if (deed.date) {
+        const monthKey = format(new Date(deed.date), 'yyyy-MM');
+        statResult.byMonth[monthKey] = (statResult.byMonth[monthKey] || 0) + 1;
+      }
+      
+      // Impact
+      if (deed.impact) {
+        statResult.byImpact[deed.impact as keyof typeof statResult.byImpact] += 1;
+      }
+    });
+    
+    return statResult;
+  };
   
   // Filter deeds when search query or status filter changes
   useEffect(() => {
@@ -187,73 +230,69 @@ const Stats: React.FC = () => {
     <div className="space-y-6">
       {/* Line Chart at the top with Date Range Selector and Status Filter */}
       <Card className="glass-card mb-8 animate-fade-in">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col space-y-4">
           <CardTitle>Good Deeds Activity</CardTitle>
           
-          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-            {/* Status filter */}
-            <div className="mr-2">
-              <ToggleGroup type="single" value={statusFilter} onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}>
-                <ToggleGroupItem value="all" aria-label="Show all deeds">
-                  <List className="h-4 w-4 mr-1" />
-                  All
-                </ToggleGroupItem>
-                <ToggleGroupItem value="completed" aria-label="Show completed deeds">
-                  <CheckCheck className="h-4 w-4 mr-1" />
-                  Completed
-                </ToggleGroupItem>
-                <ToggleGroupItem value="pending" aria-label="Show pending deeds">
-                  <Circle className="h-4 w-4 mr-1" />
-                  Pending
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-            
-            <Select
-              value={selectedRange}
-              onValueChange={handleRangeSelection}
+          {/* Status filter */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <ToggleGroup 
+              type="single" 
+              value={statusFilter} 
+              onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}
+              className="flex"
             >
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Select range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="30days">Last 30 days</SelectItem>
-                <SelectItem value="3months">Last 3 months</SelectItem>
-                <SelectItem value="6months">Last 6 months</SelectItem>
-                <SelectItem value="year">Last year</SelectItem>
-                <SelectItem value="all">All time</SelectItem>
-                <SelectItem value="custom">Custom range</SelectItem>
-              </SelectContent>
-            </Select>
+              <ToggleGroupItem value="all" aria-label="Show all deeds">All</ToggleGroupItem>
+              <ToggleGroupItem value="completed" aria-label="Show completed deeds">Completed</ToggleGroupItem>
+              <ToggleGroupItem value="pending" aria-label="Show pending deeds">Pending</ToggleGroupItem>
+            </ToggleGroup>
             
-            {selectedRange === "custom" && (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <CalendarRange className="h-4 w-4" />
-                    <span>
-                      {format(dateRange.from, "MMM d, yyyy")} - {format(dateRange.to, "MMM d, yyyy")}
-                    </span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="end">
-                  <CalendarUI
-                    mode="range"
-                    defaultMonth={dateRange.from}
-                    selected={{
-                      from: dateRange.from,
-                      to: dateRange.to,
-                    }}
-                    onSelect={(range) => {
-                      if (range?.from && range?.to) {
-                        setDateRange({ from: range.from, to: range.to });
-                      }
-                    }}
-                    className="pointer-events-auto"
-                  />
-                </PopoverContent>
-              </Popover>
-            )}
+            <div className="ml-auto">
+              <Select
+                value={selectedRange}
+                onValueChange={handleRangeSelection}
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="30days">Last 30 days</SelectItem>
+                  <SelectItem value="3months">Last 3 months</SelectItem>
+                  <SelectItem value="6months">Last 6 months</SelectItem>
+                  <SelectItem value="year">Last year</SelectItem>
+                  <SelectItem value="all">All time</SelectItem>
+                  <SelectItem value="custom">Custom range</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              {selectedRange === "custom" && (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2 mt-2 sm:mt-0 sm:ml-2">
+                      <CalendarRange className="h-4 w-4" />
+                      <span>
+                        {format(dateRange.from, "MMM d, yyyy")} - {format(dateRange.to, "MMM d, yyyy")}
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="end">
+                    <CalendarUI
+                      mode="range"
+                      defaultMonth={dateRange.from}
+                      selected={{
+                        from: dateRange.from,
+                        to: dateRange.to,
+                      }}
+                      onSelect={(range) => {
+                        if (range?.from && range?.to) {
+                          setDateRange({ from: range.from, to: range.to });
+                        }
+                      }}
+                      className="pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
+            </div>
           </div>
         </CardHeader>
         <CardContent>
