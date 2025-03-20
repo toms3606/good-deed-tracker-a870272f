@@ -34,13 +34,15 @@ const Navbar: React.FC = () => {
   
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/40">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <HandHeart className="h-6 w-6 text-primary group-hover:animate-float transition-transform" />
-          <span className="font-medium text-xl tracking-tight">Good Deeds</span>
-        </Link>
+      <div className="container flex h-16 items-center">
+        <div className="flex-1">
+          <Link to="/" className="flex items-center gap-2 group">
+            <HandHeart className="h-6 w-6 text-primary group-hover:animate-float transition-transform" />
+            <span className="font-medium text-xl tracking-tight">Good Deeds</span>
+          </Link>
+        </div>
         
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6 justify-center flex-1">
           <Link to="/ideas" className="text-foreground/80 hover:text-foreground transition-colors">
             Ideas
           </Link>
@@ -55,7 +57,7 @@ const Navbar: React.FC = () => {
           </Link>
         </nav>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-1 justify-end">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
