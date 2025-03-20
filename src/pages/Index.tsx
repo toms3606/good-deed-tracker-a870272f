@@ -114,7 +114,7 @@ const Index: React.FC = () => {
               <span className="font-medium">Good Deeds</span>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2023 Good Deeds. All rights reserved.
+              © 2025 Good Deeds. All rights reserved.
             </div>
           </div>
         </div>
