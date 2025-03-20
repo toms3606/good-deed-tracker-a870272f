@@ -11,9 +11,13 @@ const CTASection: React.FC = () => {
 
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
-      {/* Background with removed color styling */}
-      <div className="absolute inset-0 -z-10 bg-cover bg-center">
-        {/* Removed background overlay with color */}
+      {/* Background with image restored but no color overlay */}
+      <div 
+        className="absolute inset-0 -z-10 bg-cover bg-center"
+        style={{ 
+          backgroundImage: 'url("https://lovable.blob.core.windows.net/uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png")'
+        }}
+      >
       </div>
       
       <div className="container px-4 md:px-6">
