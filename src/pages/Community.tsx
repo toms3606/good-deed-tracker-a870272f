@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Navbar from '@/components/Navbar';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import CommunityStats from '@/components/CommunityStats';
 import GlobalMap from '@/components/GlobalMap';
 
