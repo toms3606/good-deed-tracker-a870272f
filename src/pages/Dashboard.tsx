@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import DeedCard from '@/components/DeedCard';
 import AddDeedButton from '@/components/AddDeedButton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Deed } from '@/types/deed';
 import { getDeeds, updateDeed } from '@/utils/deedUtils';
 import { toast } from 'sonner';
-import Stats from '@/components/Stats';
 import CalendarView from '@/components/CalendarView';
 
 const Dashboard: React.FC = () => {
@@ -53,65 +51,47 @@ const Dashboard: React.FC = () => {
           <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds Tracker</h1>
         </div>
         
-        <Tabs defaultValue="deeds" className="animate-fade-in">
-          <TabsList className="mb-8">
-            <TabsTrigger value="deeds">Deeds</TabsTrigger>
-            <TabsTrigger value="calendar">Calendar</TabsTrigger>
-            <TabsTrigger value="stats">Statistics</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="deeds" className="animate-fade-in">
-            {/* Calendar View above Deed Lists */}
-            <div className="mb-8">
-              <CalendarView />
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h2 className="text-2xl font-semibold mb-4">Pending Deeds ({pendingDeeds.length})</h2>
-                {pendingDeeds.length === 0 ? (
-                  <div className="glass-card p-6 text-center text-muted-foreground">
-                    <p>You don't have any pending good deeds.</p>
-                    <p className="mt-2">Add a new deed to get started!</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {pendingDeeds.map((deed) => (
-                      <DeedCard
-                        key={deed.id}
-                        deed={deed}
-                        onComplete={handleCompleteDeed}
-                      />
-                    ))}
-                  </div>
-                )}
+        {/* Calendar View above Deed Lists */}
+        <div className="mb-8 animate-fade-in">
+          <CalendarView />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">Pending Deeds ({pendingDeeds.length})</h2>
+            {pendingDeeds.length === 0 ? (
+              <div className="glass-card p-6 text-center text-muted-foreground">
+                <p>You don't have any pending good deeds.</p>
+                <p className="mt-2">Add a new deed to get started!</p>
               </div>
-              
-              <div>
-                <h2 className="text-2xl font-semibold mb-4">Completed Deeds ({completedDeeds.length})</h2>
-                {completedDeeds.length === 0 ? (
-                  <div className="glass-card p-6 text-center text-muted-foreground">
-                    <p>You haven't completed any good deeds yet.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {completedDeeds.map((deed) => (
-                      <DeedCard key={deed.id} deed={deed} />
-                    ))}
-                  </div>
-                )}
+            ) : (
+              <div className="space-y-4">
+                {pendingDeeds.map((deed) => (
+                  <DeedCard
+                    key={deed.id}
+                    deed={deed}
+                    onComplete={handleCompleteDeed}
+                  />
+                ))}
               </div>
-            </div>
-          </TabsContent>
+            )}
+          </div>
           
-          <TabsContent value="calendar" className="animate-fade-in">
-            <CalendarView />
-          </TabsContent>
-          
-          <TabsContent value="stats" className="animate-fade-in">
-            <Stats />
-          </TabsContent>
-        </Tabs>
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">Completed Deeds ({completedDeeds.length})</h2>
+            {completedDeeds.length === 0 ? (
+              <div className="glass-card p-6 text-center text-muted-foreground">
+                <p>You haven't completed any good deeds yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {completedDeeds.map((deed) => (
+                  <DeedCard key={deed.id} deed={deed} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </main>
       
       <AddDeedButton />
