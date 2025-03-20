@@ -42,10 +42,7 @@ const Navbar: React.FC = () => {
         
         <nav className="hidden md:flex items-center gap-6">
           <Link to="/tracker" className="text-foreground/80 hover:text-foreground transition-colors">
-            Tracker
-          </Link>
-          <Link to="/calendar" className="text-foreground/80 hover:text-foreground transition-colors">
-            Calendar
+            Deeds
           </Link>
           <Link to="/dashboard" className="text-foreground/80 hover:text-foreground transition-colors">
             Dashboard

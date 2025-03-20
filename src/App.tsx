@@ -12,26 +12,13 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-// Create standalone Calendar and Stats pages to simplify routing
-import CalendarView from "@/components/CalendarView";
+// Create standalone Stats page to simplify routing
 import Stats from "@/components/Stats";
 import Navbar from "./components/Navbar";
 
 const queryClient = new QueryClient();
 
-// Create standalone pages for Calendar and Stats (now Dashboard)
-const CalendarPage = () => (
-  <div className="min-h-screen bg-background">
-    <Navbar />
-    <ProtectedRoute>
-      <div className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
-        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Calendar</h1>
-        <CalendarView />
-      </div>
-    </ProtectedRoute>
-  </div>
-);
-
+// Create standalone page for Stats (now Dashboard)
 const DashboardPage = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
@@ -63,7 +50,6 @@ const App = () => (
                 </ProtectedRoute>
               } 
             />
-            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
