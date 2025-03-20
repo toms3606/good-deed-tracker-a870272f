@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -107,9 +106,6 @@ const Index: React.FC = () => {
           <div className="grid gap-12 md:gap-16">
             <div className="text-center space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold">Simple. Meaningful. Impactful.</h2>
-              <p className="text-muted-foreground md:text-lg max-w-[700px] mx-auto">
-                Track and visualize your good deeds with our intuitive and elegant interface.
-              </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
