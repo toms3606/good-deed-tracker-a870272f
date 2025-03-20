@@ -27,9 +27,6 @@ const Index: React.FC = () => {
               <Button asChild size="lg" className="animate-slide-up rounded-full px-8">
                 <Link to="/dashboard">Start Tracking</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="animate-slide-up rounded-full px-8">
-                <Link to="/login">Sign In</Link>
-              </Button>
             </div>
           </div>
         </div>
