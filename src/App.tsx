@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
+import Tracker from "./pages/Dashboard"; // Renamed to Tracker
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -19,7 +19,7 @@ import Navbar from "./components/Navbar";
 
 const queryClient = new QueryClient();
 
-// Create standalone pages for Calendar and Stats
+// Create standalone pages for Calendar and Stats (now Dashboard)
 const CalendarPage = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
@@ -32,12 +32,12 @@ const CalendarPage = () => (
   </div>
 );
 
-const StatsPage = () => (
+const DashboardPage = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
     <ProtectedRoute>
       <div className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
-        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Statistics</h1>
+        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Dashboard</h1>
         <Stats />
       </div>
     </ProtectedRoute>
@@ -56,15 +56,15 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route 
-              path="/dashboard" 
+              path="/tracker" 
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Tracker />
                 </ProtectedRoute>
               } 
             />
             <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/stats" element={<StatsPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
