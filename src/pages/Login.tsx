@@ -46,7 +46,7 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <Link to="/" className="flex items-center gap-2 mb-8 group">
         <HandHeart className="h-8 w-8 text-primary group-hover:animate-float transition-transform" />
-        <span className="font-medium text-2xl tracking-tight">GoodDeedTracker</span>
+        <span className="font-medium text-2xl tracking-tight">Good Deeds</span>
       </Link>
       
       <Card className="w-full max-w-md animate-fade-in">

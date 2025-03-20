@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
           <HandHeart className="h-6 w-6 text-primary group-hover:animate-float transition-transform" />
-          <span className="font-medium text-xl tracking-tight">GoodDeedTracker</span>
+          <span className="font-medium text-xl tracking-tight">Good Deeds</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">

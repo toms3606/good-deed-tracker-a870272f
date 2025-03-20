@@ -111,10 +111,10 @@ const Index: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
               <HandHeart className="h-6 w-6 text-primary" />
-              <span className="font-medium">GoodDeedTracker</span>
+              <span className="font-medium">Good Deeds</span>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2023 GoodDeedTracker. All rights reserved.
+              © 2023 Good Deeds. All rights reserved.
             </div>
           </div>
         </div>
