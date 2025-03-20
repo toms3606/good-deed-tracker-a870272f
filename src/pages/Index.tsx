@@ -80,7 +80,7 @@ const Index: React.FC = () => {
               { 
                 src: "https://images.unsplash.com/photo-1609139159425-5338e9cb0fda?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 alt: "Person shoveling snow from elderly neighbor's driveway",
-                title: "Winter Help" 
+                title: "Volunteer" 
               }
             ].map((image, index) => (
               <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
