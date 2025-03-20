@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import DeedCard from '@/components/DeedCard';
@@ -45,6 +44,17 @@ const Dashboard: React.FC = () => {
     toast.success('Deed marked as complete!');
   };
   
+  const handleMarkPending = (id: string) => {
+    const deed = deeds.find(d => d.id === id);
+    if (!deed) return;
+    
+    const updatedDeed = { ...deed, completed: false };
+    updateDeed(updatedDeed);
+    
+    setDeeds(deeds.map(d => d.id === id ? updatedDeed : d));
+    toast.success('Deed moved back to pending!');
+  };
+  
   const handleEditDeed = (deed: Deed) => {
     setCurrentDeed(deed);
     setEditDeedDialogOpen(true);
@@ -57,7 +67,6 @@ const Dashboard: React.FC = () => {
     toast.success('Deed updated successfully!');
   };
   
-  // Filter deeds
   const pendingDeeds = deeds.filter(deed => !deed.completed);
   const completedDeeds = deeds.filter(deed => deed.completed);
   
@@ -70,14 +79,11 @@ const Dashboard: React.FC = () => {
           <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds Tracker</h1>
         </div>
         
-        {/* Calendar View above Deed Lists */}
         <div className="mb-8 animate-fade-in">
           <CalendarView />
         </div>
         
-        {/* Changed from grid to flex column layout */}
         <div className="flex flex-col gap-8 animate-fade-in">
-          {/* Pending Deeds Section */}
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold">Pending Deeds ({pendingDeeds.length})</h2>
@@ -109,7 +115,6 @@ const Dashboard: React.FC = () => {
             )}
           </div>
           
-          {/* Completed Deeds Section - Now below Pending Deeds */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Completed Deeds ({completedDeeds.length})</h2>
             {completedDeeds.length === 0 ? (
@@ -119,7 +124,11 @@ const Dashboard: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {completedDeeds.map((deed) => (
-                  <DeedCard key={deed.id} deed={deed} />
+                  <DeedCard 
+                    key={deed.id} 
+                    deed={deed} 
+                    onMarkPending={handleMarkPending}
+                  />
                 ))}
               </div>
             )}
@@ -127,10 +136,8 @@ const Dashboard: React.FC = () => {
         </div>
       </main>
       
-      {/* Fixed Add Button at bottom right */}
       <AddDeedButton />
       
-      {/* Add Deed Dialog */}
       <Dialog open={addDeedDialogOpen} onOpenChange={setAddDeedDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -140,7 +147,6 @@ const Dashboard: React.FC = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Edit Deed Dialog */}
       <Dialog open={editDeedDialogOpen} onOpenChange={setEditDeedDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>

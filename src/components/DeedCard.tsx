@@ -5,12 +5,14 @@ import { formatDate } from '@/utils/deedUtils';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Check, Heart, Star } from 'lucide-react';
+import { Check, Heart, Star, RefreshCw } from 'lucide-react';
+import { Button } from './ui/button';
 
 interface DeedCardProps {
   deed: Deed;
   onComplete?: (id: string) => void;
   onEdit?: (deed: Deed) => void;
+  onMarkPending?: (id: string) => void;
 }
 
 const impactIcons = {
@@ -25,7 +27,7 @@ const impactColors = {
   large: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
 };
 
-const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete, onEdit }) => {
+const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete, onEdit, onMarkPending }) => {
   return (
     <Card className="glass-card card-hover overflow-hidden animate-scale-in">
       <CardHeader className="pb-2">
@@ -70,10 +72,24 @@ const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete, onEdit }) => {
         </div>
         {/* Show completed badge for completed deeds */}
         {deed.completed && (
-          <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 flex items-center gap-1">
-            <Check className="h-4 w-4 text-green-800 dark:text-green-200" />
-            Completed
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 flex items-center gap-1">
+              <Check className="h-4 w-4 text-green-800 dark:text-green-200" />
+              Completed
+            </Badge>
+            {/* Add Mark as Pending button */}
+            {onMarkPending && (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-7 flex items-center gap-1"
+                onClick={() => onMarkPending(deed.id)}
+              >
+                <RefreshCw className="h-3 w-3" />
+                Mark Pending
+              </Button>
+            )}
+          </div>
         )}
       </CardFooter>
     </Card>
