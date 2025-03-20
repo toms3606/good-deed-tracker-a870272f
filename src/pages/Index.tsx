@@ -55,7 +55,7 @@ const Index: React.FC = () => {
               { 
                 src: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 alt: "Person planting in community garden",
-                title: "Community Gardening" 
+                title: "Gardening" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
