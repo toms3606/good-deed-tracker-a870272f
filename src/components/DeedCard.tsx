@@ -4,6 +4,7 @@ import { Deed } from '@/types/deed';
 import { formatDate } from '@/utils/deedUtils';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Check, Heart, Star } from 'lucide-react';
 
 interface DeedCardProps {
@@ -28,7 +29,19 @@ const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete }) => {
     <Card className="glass-card card-hover overflow-hidden animate-scale-in">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-lg">{deed.title}</CardTitle>
+          <div className="flex items-start gap-2">
+            {/* Checkbox for pending deeds */}
+            {onComplete && !deed.completed && (
+              <div className="pt-1">
+                <Checkbox 
+                  id={`complete-${deed.id}`}
+                  checked={deed.completed}
+                  onCheckedChange={() => onComplete(deed.id)}
+                />
+              </div>
+            )}
+            <CardTitle className="text-lg">{deed.title}</CardTitle>
+          </div>
           <Badge className={`${impactColors[deed.impact]} flex items-center gap-1`}>
             {impactIcons[deed.impact]} {deed.impact}
           </Badge>
@@ -49,17 +62,10 @@ const DeedCard: React.FC<DeedCardProps> = ({ deed, onComplete }) => {
         <div className="text-sm text-muted-foreground">
           {formatDate(deed.date)}
         </div>
-        {onComplete && !deed.completed && (
-          <button 
-            onClick={() => onComplete(deed.id)}
-            className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
-          >
-            <Check className="h-4 w-4" />
-            <span>Complete</span>
-          </button>
-        )}
+        {/* Show completed badge for completed deeds */}
         {deed.completed && (
-          <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+          <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 flex items-center gap-1">
+            <Check className="h-4 w-4 text-green-800 dark:text-green-200" />
             Completed
           </Badge>
         )}
