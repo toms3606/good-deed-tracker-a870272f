@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { HandHeart, Star, Calendar, BarChart4, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const Index: React.FC = () => {
   return (
@@ -33,6 +34,59 @@ const Index: React.FC = () => {
         
         {/* Background decor */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-primary/5 to-secondary/5 blur-3xl -z-10" />
+      </section>
+      
+      {/* Image Gallery Section */}
+      <section className="py-12 md:py-16 overflow-hidden">
+        <div className="container px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Everyday Acts of Kindness</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {[
+              { 
+                src: "https://images.unsplash.com/photo-1542838132-92c53300491e",
+                alt: "Person helping elderly woman with groceries" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1", 
+                alt: "Woman walking dogs in the park" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1530490125459-847a6d437825",
+                alt: "Person planting in community garden" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1526915225318-355ef10d12a4",
+                alt: "Volunteers painting a fence" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f",
+                alt: "People helping someone move furniture" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1507692049790-de58290a4334",
+                alt: "Person cleaning up local beach" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1593113598332-cd59a93f9dd6",
+                alt: "Neighbors building a community shed" 
+              },
+              { 
+                src: "https://images.unsplash.com/photo-1577896851231-70ef18881754",
+                alt: "Person shoveling snow from elderly neighbor's driveway" 
+              }
+            ].map((image, index) => (
+              <div key={index} className="overflow-hidden rounded-lg shadow-md animate-slide-up card-hover" style={{ animationDelay: `${index * 100}ms` }}>
+                <AspectRatio ratio={3/2}>
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                  />
+                </AspectRatio>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
       
       {/* Features Section */}
