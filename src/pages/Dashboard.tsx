@@ -16,8 +16,6 @@ import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { DateRange } from 'react-day-picker';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LineChart } from '@/components/ui/line-chart';
 
 const Dashboard: React.FC = () => {
   const [deeds, setDeeds] = useState<Deed[]>([]);
@@ -56,44 +54,6 @@ const Dashboard: React.FC = () => {
   // Filter deeds
   const pendingDeeds = deeds.filter(deed => !deed.completed);
   const completedDeeds = deeds.filter(deed => deed.completed);
-  
-  // Generate data for line chart
-  const generateTimeSeriesData = () => {
-    const startDate = date?.from || new Date(new Date().setDate(new Date().getDate() - 30));
-    const endDate = date?.to || new Date();
-    
-    // Create a Map to store deeds count by date
-    const deedsByDate = new Map<string, number>();
-    
-    // Initialize all dates in the range with 0 count
-    const currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-      const dateKey = format(currentDate, 'yyyy-MM-dd');
-      deedsByDate.set(dateKey, 0);
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    // Count deeds for each date
-    deeds.forEach(deed => {
-      const deedDate = new Date(deed.date);
-      if (deedDate >= startDate && deedDate <= endDate) {
-        const dateKey = format(deedDate, 'yyyy-MM-dd');
-        deedsByDate.set(dateKey, (deedsByDate.get(dateKey) || 0) + 1);
-      }
-    });
-    
-    // Convert to array and sort by date
-    const chartData = Array.from(deedsByDate.entries())
-      .map(([date, count]) => ({
-        date: date,
-        count: count
-      }))
-      .sort((a, b) => a.date.localeCompare(b.date));
-    
-    return chartData;
-  };
-  
-  const timeSeriesData = generateTimeSeriesData();
   
   return (
     <div className="min-h-screen bg-background">
@@ -143,27 +103,6 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         
-        <Card className="glass-card mb-8 animate-fade-in">
-          <CardHeader>
-            <CardTitle>Good Deeds Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <LineChart
-              data={timeSeriesData}
-              index="date"
-              categories={["count"]}
-              colors={["primary"]}
-              yAxisWidth={30}
-              showXAxis
-              showYAxis
-              showLegend={false}
-              showAnimation
-              valueFormatter={(value) => `${value} deeds`}
-              className="aspect-[3/1]"
-            />
-          </CardContent>
-        </Card>
-        
         <Tabs defaultValue="deeds" className="animate-fade-in">
           <TabsList className="mb-8">
             <TabsTrigger value="deeds">Deeds</TabsTrigger>
@@ -172,6 +111,11 @@ const Dashboard: React.FC = () => {
           </TabsList>
           
           <TabsContent value="deeds" className="animate-fade-in">
+            {/* Calendar View above Deed Lists */}
+            <div className="mb-8">
+              <CalendarView />
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h2 className="text-2xl font-semibold mb-4">Pending Deeds ({pendingDeeds.length})</h2>
