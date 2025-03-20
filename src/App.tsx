@@ -11,6 +11,7 @@ import Tracker from "./pages/Dashboard"; // Renamed to Tracker
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Ideas from "./pages/Ideas";
 
 // Create standalone Stats page to simplify routing
 import Stats from "@/components/Stats";
@@ -51,6 +52,14 @@ const App = () => (
               } 
             />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route 
+              path="/ideas" 
+              element={
+                <ProtectedRoute>
+                  <Ideas />
+                </ProtectedRoute>
+              } 
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

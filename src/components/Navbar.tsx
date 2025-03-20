@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HandHeart, LogOut, User } from 'lucide-react';
+import { HandHeart, LogOut, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -43,6 +43,12 @@ const Navbar: React.FC = () => {
         <nav className="hidden md:flex items-center gap-6">
           <Link to="/tracker" className="text-foreground/80 hover:text-foreground transition-colors">
             Deeds
+          </Link>
+          <Link to="/ideas" className="text-foreground/80 hover:text-foreground transition-colors">
+            <div className="flex items-center gap-1">
+              <Sparkles className="h-4 w-4" />
+              <span>Ideas</span>
+            </div>
           </Link>
           <Link to="/dashboard" className="text-foreground/80 hover:text-foreground transition-colors">
             Dashboard
