@@ -25,7 +25,7 @@ const Index: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <Button asChild size="lg" className="animate-slide-up rounded-full px-8">
-                <Link to="/dashboard">Start Tracking</Link>
+                <Link to="/dashboard">Get Started</Link>
               </Button>
             </div>
           </div>
@@ -99,7 +99,7 @@ const Index: React.FC = () => {
               Join thousands of others who are making the world a better place, one good deed at a time.
             </p>
             <Button asChild size="lg" className="mt-4 rounded-full px-8">
-              <Link to="/register">Get Started For Free</Link>
+              <Link to="/register">Get Started</Link>
             </Button>
           </div>
         </div>
