@@ -75,7 +75,9 @@ const Dashboard: React.FC = () => {
           <CalendarView />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+        {/* Changed from grid to flex column layout */}
+        <div className="flex flex-col gap-8 animate-fade-in">
+          {/* Pending Deeds Section */}
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold">Pending Deeds ({pendingDeeds.length})</h2>
@@ -107,6 +109,7 @@ const Dashboard: React.FC = () => {
             )}
           </div>
           
+          {/* Completed Deeds Section - Now below Pending Deeds */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Completed Deeds ({completedDeeds.length})</h2>
             {completedDeeds.length === 0 ? (
