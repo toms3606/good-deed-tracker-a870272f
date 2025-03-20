@@ -43,35 +43,35 @@ const Index: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {[
               { 
-                src: "https://images.unsplash.com/photo-1542838132-92c53300491e",
+                src: "https://images.unsplash.com/photo-1593476123561-9516f2097158",
                 alt: "Person helping elderly woman with groceries" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1", 
+                src: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee", 
                 alt: "Woman walking dogs in the park" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1530490125459-847a6d437825",
+                src: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea",
                 alt: "Person planting in community garden" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1526915225318-355ef10d12a4",
+                src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
                 alt: "Volunteers painting a fence" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f",
+                src: "https://images.unsplash.com/photo-1581579438747-b22fec2f16d7",
                 alt: "People helping someone move furniture" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1507692049790-de58290a4334",
+                src: "https://images.unsplash.com/photo-1610459628376-09648f537b20",
                 alt: "Person cleaning up local beach" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1593113598332-cd59a93f9dd6",
+                src: "https://images.unsplash.com/photo-1517849706995-7c35746d9567",
                 alt: "Neighbors building a community shed" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1577896851231-70ef18881754",
+                src: "https://images.unsplash.com/photo-1609139159425-5338e9cb0fda",
                 alt: "Person shoveling snow from elderly neighbor's driveway" 
               }
             ].map((image, index) => (
