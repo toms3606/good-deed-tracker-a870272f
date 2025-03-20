@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { getDeedStats } from '@/utils/deedUtils';
 import { DeedStats } from '@/types/deed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, PieChart } from '@/components/ui/chart';
+import { BarChart } from '@/components/ui/bar-chart';
+import { PieChart } from '@/components/ui/pie-chart';
 import { HandHeart, TrendingUp, Calendar, Award } from 'lucide-react';
 
 const Stats: React.FC = () => {
@@ -18,7 +18,6 @@ const Stats: React.FC = () => {
     setStats(getDeedStats());
   }, []);
   
-  // Prepare data for charts
   const categoryChartData = Object.entries(stats.byCategory).map(([category, count]) => ({
     name: category,
     value: count,
@@ -43,7 +42,6 @@ const Stats: React.FC = () => {
     value: count,
   }));
   
-  // Statistic card
   const StatCard = ({ title, value, icon, className }: { title: string; value: number; icon: React.ReactNode; className?: string }) => (
     <Card className={`glass-card animate-scale-in ${className}`}>
       <CardContent className="flex justify-between items-center p-6">
