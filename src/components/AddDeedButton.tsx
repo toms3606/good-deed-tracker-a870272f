@@ -4,9 +4,16 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AddDeedForm from './AddDeedForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useLocation } from 'react-router-dom';
 
 const AddDeedButton: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  
+  // Don't render the button on the tracker page
+  if (location.pathname === '/tracker') {
+    return null;
+  }
   
   return (
     <>
