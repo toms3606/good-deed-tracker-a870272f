@@ -10,8 +10,8 @@ const AddDeedButton: React.FC = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   
-  // Don't render the button on the tracker page
-  if (location.pathname === '/tracker') {
+  // Don't render the button on the tracker page or community page
+  if (location.pathname === '/tracker' || location.pathname === '/community') {
     return null;
   }
   

@@ -8,6 +8,10 @@ import { Deed } from '@/types/deed';
 import { Badge } from '@/components/ui/badge';
 import { DateRange } from 'react-day-picker';
 import { addDays } from 'date-fns';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import AddDeedForm from './AddDeedForm';
 
 const CalendarView: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -16,6 +20,7 @@ const CalendarView: React.FC = () => {
   });
   
   const [deedsInRange, setDeedsInRange] = useState<Deed[]>([]);
+  const [addDeedOpen, setAddDeedOpen] = useState(false);
   
   // Helper function to get dates with deeds
   const getDatesWithDeeds = (): Date[] => {
@@ -50,9 +55,18 @@ const CalendarView: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card className="glass-card lg:col-span-1 animate-fade-in">
-        <CardHeader>
-          <CardTitle>Calendar</CardTitle>
-          <CardDescription>Select a date range to view your good deeds</CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Calendar</CardTitle>
+            <CardDescription>Select a date range to view your good deeds</CardDescription>
+          </div>
+          <Button 
+            onClick={() => setAddDeedOpen(true)} 
+            className="h-10 w-10 rounded-full shadow-sm"
+            size="icon"
+          >
+            <Plus className="h-5 w-5" />
+          </Button>
         </CardHeader>
         <CardContent>
           <Calendar
@@ -121,6 +135,15 @@ const CalendarView: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      <Dialog open={addDeedOpen} onOpenChange={setAddDeedOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Add a New Good Deed</DialogTitle>
+          </DialogHeader>
+          <AddDeedForm onClose={() => setAddDeedOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
