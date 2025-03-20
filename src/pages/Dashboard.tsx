@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import DeedCard from '@/components/DeedCard';
@@ -76,7 +77,7 @@ const Dashboard: React.FC = () => {
       
       <main className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds Tracker</h1>
+          <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds</h1>
         </div>
         
         <div className="mb-8 animate-fade-in">
