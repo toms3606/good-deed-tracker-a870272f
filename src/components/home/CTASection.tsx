@@ -10,15 +10,15 @@ const CTASection: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
-      {/* Background with image restored but no color overlay */}
+    <section className="relative py-20 md:py-28 overflow-hidden bg-gray-50 dark:bg-gray-900">
+      {/* Background image with fixed styles to ensure visibility */}
       <div 
-        className="absolute inset-0 -z-10 bg-cover bg-center"
+        className="absolute inset-0 w-full h-full -z-10 bg-cover bg-center opacity-40"
         style={{ 
-          backgroundImage: 'url("https://lovable.blob.core.windows.net/uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png")'
+          backgroundImage: 'url("/lovable-uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png")',
+          backgroundRepeat: 'no-repeat'
         }}
-      >
-      </div>
+      />
       
       <div className="container px-4 md:px-6">
         <div className="bg-white/90 dark:bg-black/90 backdrop-blur-md rounded-xl border border-primary/20 p-8 md:p-12 flex flex-col items-center text-center space-y-6 shadow-lg animate-scale-in">
