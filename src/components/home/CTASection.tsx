@@ -6,12 +6,15 @@ import { Button } from '@/components/ui/button';
 
 const CTASection: React.FC = () => {
   return (
-    <section className="relative py-20 md:py-28 bg-gradient-to-t from-background to-primary/5 overflow-hidden">
-      {/* Wave pattern at the top with increased opacity, rotated 180 degrees */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 -z-10 rotate-180">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none" className="w-full h-full text-green-300/50 fill-current">
-          <path d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-        </svg>
+    <section className="relative py-20 md:py-28 overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0 -z-10">
+        <img 
+          src="/lovable-uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png" 
+          alt="Volunteers with donation boxes" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
       </div>
       
       <div className="container px-4 md:px-6">
@@ -34,10 +37,6 @@ const CTASection: React.FC = () => {
           </Button>
         </div>
       </div>
-      
-      {/* Hero-styled background elements, rotated */}
-      <div className="absolute bottom-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 blur-3xl -z-10" />
-      <div className="absolute top-0 left-0 right-0 h-24 bg-background" style={{ borderRadius: '0 0 50% 50% / 0 0 100% 100%' }}></div>
     </section>
   );
 };
