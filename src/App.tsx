@@ -25,7 +25,7 @@ const DashboardPage = () => (
     <Navbar />
     <ProtectedRoute>
       <div className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
-        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Good Deeds Impact</h1>
         <Stats />
       </div>
     </ProtectedRoute>
