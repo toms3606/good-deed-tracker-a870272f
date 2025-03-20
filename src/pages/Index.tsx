@@ -60,7 +60,7 @@ const Index: React.FC = () => {
               { 
                 src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
                 alt: "Volunteers painting a fence",
-                title: "Volunteer Projects" 
+                title: "Cleaning" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1581579438747-b22fec2f16d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
