@@ -28,7 +28,7 @@ const HeroSection: React.FC = () => {
       
       {/* Hero background elements */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 blur-3xl -z-10" />
-      <div className="absolute -bottom-10 left-0 right-0 h-24 bg-background" style={{ borderRadius: '50% 50% 0 0 / 100% 100% 0 0' }}></div>
+      {/* Removed the curved bottom div */}
     </section>
   );
 };
