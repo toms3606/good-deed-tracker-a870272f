@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -122,7 +123,7 @@ const IdeasPage: React.FC = () => {
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-xl">Ask for Kindness Ideas</CardTitle>
+            <CardTitle className="text-xl">Ask for Kind Ideas</CardTitle>
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent>
