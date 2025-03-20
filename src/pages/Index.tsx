@@ -106,7 +106,7 @@ const Index: React.FC = () => {
         <div className="container px-4 md:px-6">
           <div className="grid gap-12 md:gap-16">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold">Simple. Beautiful. Meaningful.</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">Simple. Meaningful. Impactful.</h2>
               <p className="text-muted-foreground md:text-lg max-w-[700px] mx-auto">
                 Track and visualize your good deeds with our intuitive and elegant interface.
               </p>
