@@ -7,8 +7,6 @@ import { Deed } from '@/types/deed';
 import { getDeeds, updateDeed } from '@/utils/deedUtils';
 import { toast } from 'sonner';
 import CalendarView from '@/components/CalendarView';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import AddDeedForm from '@/components/AddDeedForm';
 
@@ -88,14 +86,6 @@ const Dashboard: React.FC = () => {
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold">Pending Deeds ({pendingDeeds.length})</h2>
-              <Button 
-                onClick={() => setAddDeedDialogOpen(true)} 
-                size="sm" 
-                className="flex items-center gap-1"
-              >
-                <Plus className="h-4 w-4" />
-                Add Deed
-              </Button>
             </div>
             {pendingDeeds.length === 0 ? (
               <div className="glass-card p-6 text-center text-muted-foreground">
