@@ -48,8 +48,8 @@ const Index: React.FC = () => {
                 title: "Helping the Elderly"
               },
               { 
-                src: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", 
-                alt: "Woman walking dogs in the park",
+                src: "/lovable-uploads/4a849889-78ca-4ff0-ba90-4d8044a973c3.png", 
+                alt: "French bulldog being bathed in sink",
                 title: "Pet Care"
               },
               { 
