@@ -78,8 +78,8 @@ const Index: React.FC = () => {
                 title: "Household Repairs" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1609139159425-5338e9cb0fda?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "Person shoveling snow from elderly neighbor's driveway",
+                src: "/lovable-uploads/410d6197-7d6a-482c-bedb-103b03bad321.png",
+                alt: "Group of diverse volunteers with donation boxes and clothing",
                 title: "Volunteer" 
               }
             ].map((image, index) => (
