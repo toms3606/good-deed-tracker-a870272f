@@ -161,7 +161,7 @@ const Index: React.FC = () => {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold">Ready to Build Your Legacy of Kindness?</h2>
             <p className="text-muted-foreground max-w-[600px]">
-              Join thousands of others who are making the world a better place, one good deed at a time.
+              Make the world a better place, one good deed at a time.
             </p>
             <Button asChild size="lg" className="mt-4 rounded-full px-8">
               <Link to="/register">Get Started</Link>
