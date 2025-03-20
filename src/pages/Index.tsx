@@ -58,8 +58,8 @@ const Index: React.FC = () => {
                 title: "Yard Work" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "Volunteers painting a fence",
+                src: "/lovable-uploads/c380d9b3-e0e1-45cf-8dd3-e2991ba4e4b8.png",
+                alt: "Person cleaning kitchen with spray bottle and cloth",
                 title: "Cleaning" 
               },
               { 
