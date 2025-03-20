@@ -53,8 +53,8 @@ const Index: React.FC = () => {
                 title: "Pet Care"
               },
               { 
-                src: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "Person planting in community garden",
+                src: "/lovable-uploads/d54a1438-a809-429e-acb5-dd408e2aab66.png",
+                alt: "Person mowing lawn in sunny backyard",
                 title: "Yard Work" 
               },
               { 
@@ -68,13 +68,13 @@ const Index: React.FC = () => {
                 title: "Shopping" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1610459628376-09648f537b20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "Person cleaning up local beach",
+                src: "/lovable-uploads/330ddd6c-98dc-4fdc-a5c5-e60a59393c0e.png",
+                alt: "Two people collecting trash by a lake",
                 title: "Cleanup" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1517849706995-7c35746d9567?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "Neighbors building a community shed",
+                src: "/lovable-uploads/2c16b136-81e9-4134-abf1-5b726a5e343b.png",
+                alt: "Person fixing window with power tool",
                 title: "Household Repairs" 
               },
               { 
