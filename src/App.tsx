@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Ideas from "./pages/Ideas";
+import Community from "./pages/Community"; // Import the new Community page
 
 // Create standalone Stats page to simplify routing
 import Stats from "@/components/Stats";
@@ -59,6 +60,10 @@ const App = () => (
                   <Ideas />
                 </ProtectedRoute>
               } 
+            />
+            <Route 
+              path="/community" 
+              element={<Community />} 
             />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
