@@ -6,8 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart } from '@/components/ui/bar-chart';
 import { PieChart } from '@/components/ui/pie-chart';
 import { LineChart } from '@/components/ui/line-chart';
-import { HandHeart, TrendingUp, Calendar, Award } from 'lucide-react';
-import { format } from 'date-fns';
+import { HandHeart, TrendingUp, Calendar, Award, CalendarRange } from 'lucide-react';
+import { format, sub, isAfter, isBefore, parseISO } from 'date-fns';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarUI } from '@/components/ui/calendar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Stats: React.FC = () => {
   const [stats, setStats] = useState<DeedStats>({
@@ -17,20 +21,58 @@ const Stats: React.FC = () => {
     byImpact: { small: 0, medium: 0, large: 0 }
   });
   
+  // Add date range state
+  const [dateRange, setDateRange] = useState<{
+    from: Date;
+    to: Date;
+  }>({
+    from: sub(new Date(), { months: 6 }),
+    to: new Date()
+  });
+  
+  // Add preset range selector state
+  const [selectedRange, setSelectedRange] = useState<string>("6months");
+  
   useEffect(() => {
     setStats(getDeedStats());
   }, []);
   
+  // Handle preset range selection
+  const handleRangeSelection = (range: string) => {
+    setSelectedRange(range);
+    const now = new Date();
+    
+    let from = now;
+    switch (range) {
+      case "30days":
+        from = sub(now, { days: 30 });
+        break;
+      case "3months":
+        from = sub(now, { months: 3 });
+        break;
+      case "6months":
+        from = sub(now, { months: 6 });
+        break;
+      case "year":
+        from = sub(now, { years: 1 });
+        break;
+      case "all":
+        from = new Date(2000, 0, 1); // Very old date to include all
+        break;
+    }
+    
+    setDateRange({ from, to: now });
+  };
+  
   // Generate time series data for the line chart
   const generateTimeSeriesData = () => {
-    const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 6); // Last 6 months
+    const startDate = dateRange.from;
     
     // Create a Map to store deeds count by date
     const deedsByDate = new Map<string, number>();
     
     // Get all months between start date and now
-    const endDate = new Date();
+    const endDate = dateRange.to;
     const currentDate = new Date(startDate);
     while (currentDate <= endDate) {
       const dateKey = format(currentDate, 'yyyy-MM-dd');
@@ -42,7 +84,7 @@ const Stats: React.FC = () => {
     Object.entries(stats.byMonth).forEach(([monthYear, count]) => {
       const [month, year] = monthYear.split('/').map(Number);
       const dateObj = new Date(year, month - 1, 15); // Middle of month
-      if (dateObj >= startDate && dateObj <= endDate) {
+      if (isAfter(dateObj, startDate) && isBefore(dateObj, endDate)) {
         const dateKey = format(dateObj, 'yyyy-MM-dd');
         deedsByDate.set(dateKey, count);
       }
@@ -51,7 +93,7 @@ const Stats: React.FC = () => {
     // Convert to array and sort by date
     return Array.from(deedsByDate.entries())
       .map(([date, count]) => ({
-        date: new Date(date),
+        date: parseISO(date),
         count: count
       }))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -99,10 +141,58 @@ const Stats: React.FC = () => {
   
   return (
     <div className="space-y-6">
-      {/* Line Chart at the top */}
+      {/* Line Chart at the top with Date Range Selector */}
       <Card className="glass-card mb-8 animate-fade-in">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Good Deeds Activity</CardTitle>
+          
+          <div className="flex items-center gap-2">
+            <Select
+              value={selectedRange}
+              onValueChange={handleRangeSelection}
+            >
+              <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder="Select range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="30days">Last 30 days</SelectItem>
+                <SelectItem value="3months">Last 3 months</SelectItem>
+                <SelectItem value="6months">Last 6 months</SelectItem>
+                <SelectItem value="year">Last year</SelectItem>
+                <SelectItem value="all">All time</SelectItem>
+                <SelectItem value="custom">Custom range</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            {selectedRange === "custom" && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <CalendarRange className="h-4 w-4" />
+                    <span>
+                      {format(dateRange.from, "MMM d, yyyy")} - {format(dateRange.to, "MMM d, yyyy")}
+                    </span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <CalendarUI
+                    mode="range"
+                    defaultMonth={dateRange.from}
+                    selected={{
+                      from: dateRange.from,
+                      to: dateRange.to,
+                    }}
+                    onSelect={(range) => {
+                      if (range?.from && range?.to) {
+                        setDateRange(range);
+                      }
+                    }}
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <LineChart
