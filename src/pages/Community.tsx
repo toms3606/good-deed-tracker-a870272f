@@ -16,8 +16,8 @@ const Community: React.FC = () => {
         <div className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
           <h1 className="text-4xl font-bold mb-8 animate-fade-in">Good Deeds Community</h1>
           
-          {/* Status filter moved above the map */}
-          <div className="mb-6">
+          {/* Status filter moved above the map and left-justified */}
+          <div className="mb-6 flex justify-start">
             <ToggleGroup 
               type="single" 
               value={statusFilter} 
