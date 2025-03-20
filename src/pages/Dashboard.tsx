@@ -9,20 +9,9 @@ import { getDeeds, updateDeed } from '@/utils/deedUtils';
 import { toast } from 'sonner';
 import Stats from '@/components/Stats';
 import CalendarView from '@/components/CalendarView';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { DateRange } from 'react-day-picker';
 
 const Dashboard: React.FC = () => {
   const [deeds, setDeeds] = useState<Deed[]>([]);
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    to: new Date()
-  });
   
   useEffect(() => {
     const loadDeeds = () => {
@@ -62,45 +51,6 @@ const Dashboard: React.FC = () => {
       <main className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds Tracker</h1>
-          
-          <div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  id="date"
-                  variant={"outline"}
-                  className={cn(
-                    "w-[300px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date?.from ? (
-                    date.to ? (
-                      <>
-                        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(date.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Pick a date range</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="end">
-                <Calendar
-                  initialFocus
-                  mode="range"
-                  defaultMonth={date?.from}
-                  selected={date}
-                  onSelect={setDate}
-                  numberOfMonths={2}
-                  className="pointer-events-auto"
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
         </div>
         
         <Tabs defaultValue="deeds" className="animate-fade-in">
