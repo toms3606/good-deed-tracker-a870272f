@@ -4,7 +4,7 @@ import { getDeedStats, getDeeds } from '@/utils/deedUtils';
 import { DeedStats, Deed } from '@/types/deed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LineChart } from '@/components/ui/line-chart';
-import { HandHeart, TrendingUp, Calendar, Award, CalendarRange, Search } from 'lucide-react';
+import { HandHeart, TrendingUp, Calendar, Award, CalendarRange, Search, CheckCheck, Circle, List } from 'lucide-react';
 import { format, sub, isAfter, isBefore, parseISO } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -22,6 +22,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Stats: React.FC = () => {
   const [stats, setStats] = useState<DeedStats>({
@@ -36,6 +37,9 @@ const Stats: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  
+  // Add status filter state
+  const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'pending'>('all');
   
   // Add date range state
   const [dateRange, setDateRange] = useState<{
@@ -54,16 +58,24 @@ const Stats: React.FC = () => {
     setDeeds(getDeeds());
   }, []);
   
-  // Filter deeds when search query changes
+  // Filter deeds when search query or status filter changes
   useEffect(() => {
-    const filtered = deeds.filter(deed => 
+    let filtered = deeds.filter(deed => 
       deed.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       deed.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       deed.impact.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    
+    // Apply status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(deed => 
+        statusFilter === 'completed' ? deed.completed : !deed.completed
+      );
+    }
+    
     setFilteredDeeds(filtered);
     setCurrentPage(1);
-  }, [searchQuery, deeds]);
+  }, [searchQuery, deeds, statusFilter]);
   
   // Handle preset range selection
   const handleRangeSelection = (range: string) => {
@@ -92,9 +104,14 @@ const Stats: React.FC = () => {
     setDateRange({ from, to: now });
   };
   
-  // Generate time series data for the line chart
+  // Generate time series data for the line chart based on status filter
   const generateTimeSeriesData = () => {
     const startDate = dateRange.from;
+    
+    // Filter deeds based on status
+    const filteredDeedsForChart = statusFilter === 'all' 
+      ? deeds 
+      : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
     
     // Create a Map to store deeds count by date
     const deedsByDate = new Map<string, number>();
@@ -108,13 +125,16 @@ const Stats: React.FC = () => {
       currentDate.setDate(currentDate.getDate() + 10); // Skip by 10 days for readable chart
     }
     
-    // Count deeds for each date from stats.byMonth
-    Object.entries(stats.byMonth).forEach(([monthYear, count]) => {
-      const [month, year] = monthYear.split('/').map(Number);
-      const dateObj = new Date(year, month - 1, 15); // Middle of month
-      if (isAfter(dateObj, startDate) && isBefore(dateObj, endDate)) {
-        const dateKey = format(dateObj, 'yyyy-MM-dd');
-        deedsByDate.set(dateKey, count);
+    // Count deeds for each date
+    filteredDeedsForChart.forEach(deed => {
+      // Assuming deed.date is ISO string
+      if (deed.date) {
+        const deedDate = new Date(deed.date);
+        if (isAfter(deedDate, startDate) && isBefore(deedDate, endDate)) {
+          const dateKey = format(deedDate, 'yyyy-MM-dd');
+          const existing = deedsByDate.get(dateKey) || 0;
+          deedsByDate.set(dateKey, existing + 1);
+        }
       }
     });
     
@@ -165,12 +185,30 @@ const Stats: React.FC = () => {
   
   return (
     <div className="space-y-6">
-      {/* Line Chart at the top with Date Range Selector */}
+      {/* Line Chart at the top with Date Range Selector and Status Filter */}
       <Card className="glass-card mb-8 animate-fade-in">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Good Deeds Activity</CardTitle>
           
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+            {/* Status filter */}
+            <div className="mr-2">
+              <ToggleGroup type="single" value={statusFilter} onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}>
+                <ToggleGroupItem value="all" aria-label="Show all deeds">
+                  <List className="h-4 w-4 mr-1" />
+                  All
+                </ToggleGroupItem>
+                <ToggleGroupItem value="completed" aria-label="Show completed deeds">
+                  <CheckCheck className="h-4 w-4 mr-1" />
+                  Completed
+                </ToggleGroupItem>
+                <ToggleGroupItem value="pending" aria-label="Show pending deeds">
+                  <Circle className="h-4 w-4 mr-1" />
+                  Pending
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+            
             <Select
               value={selectedRange}
               onValueChange={handleRangeSelection}
