@@ -5,15 +5,19 @@ import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const CTASection: React.FC = () => {
+  React.useEffect(() => {
+    console.log("CTA Section mounted, checking image loading");
+  }, []);
+
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 -z-10">
-        <img 
-          src="https://lovable.blob.core.windows.net/uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png" 
-          alt="Volunteers with donation boxes" 
-          className="w-full h-full object-cover"
-        />
+      {/* Background with directly applied background image instead of img tag */}
+      <div 
+        className="absolute inset-0 -z-10 bg-cover bg-center"
+        style={{ 
+          backgroundImage: 'url("https://lovable.blob.core.windows.net/uploads/68ac219a-306e-4158-938f-4d3fb4ff400f.png")',
+        }}
+      >
         <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
       </div>
       
