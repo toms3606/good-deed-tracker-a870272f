@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
             </div>
           </Link>
           <Link to="/dashboard" className="text-foreground/80 hover:text-foreground transition-colors">
-            Dashboard
+            Impact
           </Link>
         </nav>
         
