@@ -49,14 +49,14 @@ const Index: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: <HandHeart className="h-10 w-10" />,
-                  title: "Plan Your Good Deeds",
-                  description: "Document each act of kindness with details, categories, and impact levels.",
-                },
-                {
                   icon: <Sparkles className="h-10 w-10" />,
                   title: "Good Deeds Ideas",
                   description: "Get inspiration for acts of kindness with our suggestions and guidance.",
+                },
+                {
+                  icon: <HandHeart className="h-10 w-10" />,
+                  title: "Plan Your Good Deeds",
+                  description: "Document each act of kindness with details, categories, and impact levels.",
                 },
                 {
                   icon: <BarChart4 className="h-10 w-10" />,
