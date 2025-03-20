@@ -63,9 +63,9 @@ const Index: React.FC = () => {
                 title: "Cleaning" 
               },
               { 
-                src: "https://images.unsplash.com/photo-1581579438747-b22fec2f16d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                alt: "People helping someone move furniture",
-                title: "Helping Neighbors Move" 
+                src: "/lovable-uploads/d6e0db37-3612-4f69-8f7b-87f0e599b63e.png",
+                alt: "Person shopping for groceries",
+                title: "Shopping" 
               },
               { 
                 src: "https://images.unsplash.com/photo-1610459628376-09648f537b20?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
