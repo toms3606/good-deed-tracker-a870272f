@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { getDeedStats } from '@/utils/deedUtils';
 import { DeedStats } from '@/types/deed';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart } from '@/components/ui/bar-chart';
-import { PieChart } from '@/components/ui/pie-chart';
 import { LineChart } from '@/components/ui/line-chart';
 import { HandHeart, TrendingUp, Calendar, Award, CalendarRange } from 'lucide-react';
 import { format, sub, isAfter, isBefore, parseISO } from 'date-fns';
@@ -101,30 +99,6 @@ const Stats: React.FC = () => {
   
   const timeSeriesData = generateTimeSeriesData();
   
-  const categoryChartData = Object.entries(stats.byCategory).map(([category, count]) => ({
-    name: category,
-    value: count,
-  }));
-  
-  const monthlyChartData = Object.entries(stats.byMonth)
-    .sort((a, b) => {
-      const [aMonth, aYear] = a[0].split('/').map(Number);
-      const [bMonth, bYear] = b[0].split('/').map(Number);
-      return aYear === bYear ? aMonth - bMonth : aYear - bYear;
-    })
-    .map(([monthYear, count]) => {
-      const [month, year] = monthYear.split('/');
-      return {
-        name: `${new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date(Number(year), Number(month) - 1))}`,
-        value: count,
-      };
-    });
-  
-  const impactChartData = Object.entries(stats.byImpact).map(([impact, count]) => ({
-    name: impact,
-    value: count,
-  }));
-  
   const StatCard = ({ title, value, icon, className }: { title: string; value: number; icon: React.ReactNode; className?: string }) => (
     <Card className={`glass-card animate-scale-in ${className}`}>
       <CardContent className="flex justify-between items-center p-6">
@@ -184,7 +158,7 @@ const Stats: React.FC = () => {
                     }}
                     onSelect={(range) => {
                       if (range?.from && range?.to) {
-                        setDateRange(range);
+                        setDateRange({ from: range.from, to: range.to });
                       }
                     }}
                     className="pointer-events-auto"
@@ -237,57 +211,6 @@ const Stats: React.FC = () => {
           value={stats.byImpact.large}
           icon={<Award className="h-6 w-6" />}
         />
-        
-        <Card className="glass-card md:col-span-2 animate-slide-up">
-          <CardHeader>
-            <CardTitle>Monthly Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <BarChart
-              data={monthlyChartData}
-              index="name"
-              categories={['value']}
-              colors={['blue']}
-              yAxisWidth={30}
-              showXAxis
-              showYAxis
-              showLegend={false}
-              showAnimation
-              className="aspect-[4/3] lg:aspect-[2/1]"
-            />
-          </CardContent>
-        </Card>
-        
-        <Card className="glass-card animate-slide-up">
-          <CardHeader>
-            <CardTitle>Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <PieChart
-              data={categoryChartData}
-              index="name"
-              category="value"
-              showAnimation
-              className="aspect-square"
-            />
-          </CardContent>
-        </Card>
-        
-        <Card className="glass-card animate-slide-up">
-          <CardHeader>
-            <CardTitle>Impact Level</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <PieChart
-              data={impactChartData}
-              index="name"
-              category="value"
-              colors={['#10B981', '#3B82F6', '#8B5CF6']}
-              showAnimation
-              className="aspect-square"
-            />
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
