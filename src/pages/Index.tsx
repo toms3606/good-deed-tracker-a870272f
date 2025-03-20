@@ -21,7 +21,7 @@ const Index: React.FC = () => {
               Your Journey of Kindness
             </h1>
             <p className="max-w-[700px] text-lg md:text-xl text-muted-foreground">
-              Document, organize, and reflect on the positive impact you're making in the world.
+              Develop ideas for good deeds, plan your deeds, and see the positive impact you're making in the world.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <Button asChild size="lg" className="animate-slide-up rounded-full px-8">
