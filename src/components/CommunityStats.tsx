@@ -12,7 +12,11 @@ import ActivityChart from './community/ActivityChart';
 import CategoryChart from './community/CategoryChart';
 import DeedsTable from './community/DeedsTable';
 
-const CommunityStats: React.FC = () => {
+interface CommunityStatsProps {
+  initialStatusFilter?: 'all' | 'completed' | 'pending';
+}
+
+const CommunityStats: React.FC<CommunityStatsProps> = ({ initialStatusFilter = 'all' }) => {
   // Stats state
   const [stats, setStats] = useState<DeedStats>({
     total: 0,
@@ -23,8 +27,8 @@ const CommunityStats: React.FC = () => {
   
   const [deeds, setDeeds] = useState<Deed[]>([]);
   
-  // Status filter state
-  const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'pending'>('all');
+  // Status filter state - use the initialStatusFilter
+  const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'pending'>(initialStatusFilter);
   
   // Date range state
   const [dateRange, setDateRange] = useState<{
@@ -37,6 +41,11 @@ const CommunityStats: React.FC = () => {
   
   // Selected range state
   const [selectedRange, setSelectedRange] = useState<string>("6months");
+  
+  useEffect(() => {
+    // Update status filter when initialStatusFilter changes
+    setStatusFilter(initialStatusFilter);
+  }, [initialStatusFilter]);
   
   useEffect(() => {
     // Mock additional community deeds by duplicating existing deeds with new IDs
@@ -62,7 +71,7 @@ const CommunityStats: React.FC = () => {
   
   return (
     <div className="space-y-6">
-      {/* Activity Chart with Date Range Selector and Status Filter */}
+      {/* Activity Chart with Date Range Selector. Status Filter removed */}
       <ActivityChart 
         deeds={deeds} 
         statusFilter={statusFilter} 
@@ -71,6 +80,7 @@ const CommunityStats: React.FC = () => {
         setDateRange={setDateRange}
         selectedRange={selectedRange}
         setSelectedRange={setSelectedRange}
+        hideStatusFilter={true} // New prop to hide status filter
       />
       
       {/* Stat cards for community metrics */}

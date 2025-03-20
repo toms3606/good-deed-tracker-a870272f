@@ -6,7 +6,11 @@ import { Deed } from '@/types/deed';
 import { getDeeds } from '@/utils/deedUtils';
 import { useToast } from '@/hooks/use-toast';
 
-const GlobalMap: React.FC = () => {
+interface GlobalMapProps {
+  statusFilter: 'all' | 'completed' | 'pending';
+}
+
+const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [deedLocations, setDeedLocations] = useState<Array<{deed: Deed, lat: number, lng: number}>>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -92,8 +96,13 @@ const GlobalMap: React.FC = () => {
         // Get deeds data
         const deeds = getDeeds();
         
+        // Filter deeds based on status filter
+        const filteredDeeds = statusFilter === 'all' 
+          ? deeds 
+          : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
+        
         // Add markers for each deed location
-        const deedWithLocations = deeds.map((deed, index) => {
+        const deedWithLocations = filteredDeeds.map((deed, index) => {
           // Assign a mock location to each deed (in a real app, use actual locations)
           const location = mockLocations[index % mockLocations.length];
           return { deed, ...location };
@@ -138,7 +147,7 @@ const GlobalMap: React.FC = () => {
     };
     
     initializeMap();
-  }, []);
+  }, [statusFilter]); // Add statusFilter as a dependency
   
   const getImpactColor = (impact: string): string => {
     switch (impact) {

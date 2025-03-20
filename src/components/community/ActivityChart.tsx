@@ -22,6 +22,7 @@ interface ActivityChartProps {
   setDateRange: (range: { from: Date; to: Date }) => void;
   selectedRange: string;
   setSelectedRange: (range: string) => void;
+  hideStatusFilter?: boolean; // New prop to optionally hide the status filter
 }
 
 const ActivityChart: React.FC<ActivityChartProps> = ({
@@ -31,7 +32,8 @@ const ActivityChart: React.FC<ActivityChartProps> = ({
   dateRange,
   setDateRange,
   selectedRange,
-  setSelectedRange
+  setSelectedRange,
+  hideStatusFilter = false // Default to showing the filter
 }) => {
   // Handle preset range selection
   const handleRangeSelection = (range: string) => {
@@ -110,20 +112,22 @@ const ActivityChart: React.FC<ActivityChartProps> = ({
       <CardHeader className="flex flex-col space-y-4">
         <CardTitle>Community Good Deeds Activity</CardTitle>
         
-        {/* Status filter */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <ToggleGroup 
-            type="single" 
-            value={statusFilter} 
-            onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}
-            className="flex"
-          >
-            <ToggleGroupItem value="all" aria-label="Show all deeds">All</ToggleGroupItem>
-            <ToggleGroupItem value="completed" aria-label="Show completed deeds">Completed</ToggleGroupItem>
-            <ToggleGroupItem value="pending" aria-label="Show pending deeds">Pending</ToggleGroupItem>
-          </ToggleGroup>
+          {/* Only render the status filter if hideStatusFilter is false */}
+          {!hideStatusFilter && (
+            <ToggleGroup 
+              type="single" 
+              value={statusFilter} 
+              onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}
+              className="flex"
+            >
+              <ToggleGroupItem value="all" aria-label="Show all deeds">All</ToggleGroupItem>
+              <ToggleGroupItem value="completed" aria-label="Show completed deeds">Completed</ToggleGroupItem>
+              <ToggleGroupItem value="pending" aria-label="Show pending deeds">Pending</ToggleGroupItem>
+            </ToggleGroup>
+          )}
           
-          <div className="ml-auto">
+          <div className={!hideStatusFilter ? "ml-auto" : ""}>
             <Select
               value={selectedRange}
               onValueChange={handleRangeSelection}
