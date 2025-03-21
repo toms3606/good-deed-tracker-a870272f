@@ -142,6 +142,7 @@ const IdeasPage: React.FC = () => {
                   const randomIndex = Math.floor(Math.random() * SAMPLE_PROMPTS.length);
                   setPrompt(SAMPLE_PROMPTS[randomIndex]);
                 }}
+                className="hover:bg-primary/30 transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Random Prompt
@@ -179,6 +180,7 @@ const IdeasPage: React.FC = () => {
                 variant="outline" 
                 onClick={() => generateResponse(prompt)}
                 disabled={isLoading}
+                className="hover:bg-primary/30 transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Generate More Ideas
