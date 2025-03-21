@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -149,7 +148,6 @@ const IdeasPage: React.FC = () => {
               <Button 
                 type="submit" 
                 disabled={isLoading}
-                className="bg-primary hover:bg-primary/70 transition-colors"
               >
                 {isLoading ? (
                   <>
@@ -193,3 +191,4 @@ const IdeasPage: React.FC = () => {
 };
 
 export default IdeasPage;
+
