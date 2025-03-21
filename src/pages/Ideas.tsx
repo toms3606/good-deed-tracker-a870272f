@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -130,12 +129,10 @@ const IdeasPage: React.FC = () => {
             <CardFooter className="flex justify-between">
               <Button 
                 type="button" 
-                variant="outline" 
                 onClick={() => {
                   const randomIndex = Math.floor(Math.random() * SAMPLE_PROMPTS.length);
                   setPrompt(SAMPLE_PROMPTS[randomIndex]);
                 }}
-                className="hover:bg-primary/30 hover:text-foreground transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Random Prompt
@@ -170,10 +167,8 @@ const IdeasPage: React.FC = () => {
             </CardContent>
             <CardFooter>
               <Button 
-                variant="outline" 
                 onClick={() => generateResponse(prompt)}
                 disabled={isLoading}
-                className="hover:bg-primary/30 hover:text-foreground transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Generate More Ideas
