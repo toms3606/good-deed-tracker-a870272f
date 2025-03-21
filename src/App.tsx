@@ -22,7 +22,7 @@ import Navbar from "./components/Navbar";
 const queryClient = new QueryClient();
 
 // Create standalone page for Stats (now Impact)
-const ImpactPage = () => (
+const Impact = () => (
   <div className="min-h-screen bg-background">
     <Navbar />
     <ProtectedRoute>
@@ -61,7 +61,7 @@ const App = () => (
                 </ProtectedRoute>
               } 
             />
-            <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/impact" element={<Impact />} />
             <Route 
               path="/ideas" 
               element={
