@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -101,7 +100,7 @@ const IdeasPage: React.FC = () => {
       <div className="container max-w-5xl pt-24 pb-16 px-4 md:px-6">
         <div className="flex flex-col items-center text-center mb-10">
           <Sparkles className="h-12 w-12 text-primary mb-4" />
-          <h1 className="text-4xl font-bold mb-3 animate-fade-in">Kind Ideas</h1>
+          <h1 className="text-4xl font-bold mb-3 animate-fade-in">Deeds Ideas</h1>
           <p className="text-muted-foreground max-w-2xl">
             Need inspiration for your next good deed? Ask for ideas and get suggestions for acts of kindness you can perform today.
           </p>
