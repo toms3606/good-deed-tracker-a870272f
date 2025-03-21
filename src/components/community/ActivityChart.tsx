@@ -121,9 +121,27 @@ const ActivityChart: React.FC<ActivityChartProps> = ({
               onValueChange={(value) => value && setStatusFilter(value as 'all' | 'completed' | 'pending')}
               className="flex"
             >
-              <ToggleGroupItem value="all" aria-label="Show all deeds">All</ToggleGroupItem>
-              <ToggleGroupItem value="completed" aria-label="Show completed deeds">Completed</ToggleGroupItem>
-              <ToggleGroupItem value="pending" aria-label="Show pending deeds">Pending</ToggleGroupItem>
+              <ToggleGroupItem 
+                value="all" 
+                aria-label="Show all deeds"
+                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+              >
+                All
+              </ToggleGroupItem>
+              <ToggleGroupItem 
+                value="completed" 
+                aria-label="Show completed deeds"
+                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+              >
+                Completed
+              </ToggleGroupItem>
+              <ToggleGroupItem 
+                value="pending" 
+                aria-label="Show pending deeds"
+                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+              >
+                Pending
+              </ToggleGroupItem>
             </ToggleGroup>
           )}
           
