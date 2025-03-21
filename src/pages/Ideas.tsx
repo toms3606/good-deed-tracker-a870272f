@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -110,7 +111,7 @@ const IdeasPage: React.FC = () => {
           {SAMPLE_PROMPTS.slice(0, 3).map((samplePrompt, index) => (
             <Card 
               key={index} 
-              className="cursor-pointer hover:bg-accent/50 transition-colors"
+              className="cursor-pointer hover:bg-primary/30 transition-colors"
               onClick={() => handleUseSamplePrompt(samplePrompt)}
             >
               <CardContent className="pt-6">
@@ -191,4 +192,3 @@ const IdeasPage: React.FC = () => {
 };
 
 export default IdeasPage;
-
