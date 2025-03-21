@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
+import { Link } from 'react-router-dom';
 
 const SAMPLE_PROMPTS = [
   "What's a simple act of kindness I can do for a coworker?",
@@ -94,7 +96,7 @@ const IdeasPage: React.FC = () => {
           <Sparkles className="h-12 w-12 text-primary mb-4" />
           <h1 className="text-4xl font-bold mb-3 animate-fade-in">Deeds Ideas</h1>
           <p className="text-muted-foreground max-w-2xl">
-            Need inspiration for your next good deed? Ask for ideas and get suggestions for acts of kindness you can perform today.
+            Need inspiration for your next good deed? Ask for ideas and get suggestions for acts of kindness. Or, visit the <Link to="/community" className="text-primary hover:underline">Community</Link> page to see what Deeds others are doing.
           </p>
         </div>
 
