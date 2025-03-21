@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,8 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
-import Tracker from "./pages/Dashboard"; // Renamed to Tracker
-import Schedule from "./pages/Schedule"; // Import the new Schedule page
+import Deeds from "./pages/Dashboard"; // Renamed from Tracker to Deeds
+import Schedule from "./pages/Schedule"; 
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -49,7 +48,7 @@ const App = () => (
               path="/deeds" 
               element={
                 <ProtectedRoute>
-                  <Tracker />
+                  <Deeds />
                 </ProtectedRoute>
               } 
             />
@@ -74,7 +73,6 @@ const App = () => (
               path="/community" 
               element={<Community />} 
             />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
