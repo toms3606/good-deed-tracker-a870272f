@@ -6,7 +6,6 @@ import AddDeedButton from '@/components/AddDeedButton';
 import { Deed } from '@/types/deed';
 import { getDeeds, updateDeed } from '@/utils/deedUtils';
 import { toast } from 'sonner';
-import CalendarView from '@/components/CalendarView';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import AddDeedForm from '@/components/AddDeedForm';
 
@@ -76,10 +75,6 @@ const Dashboard: React.FC = () => {
       <main className="container max-w-7xl pt-24 pb-16 px-4 md:px-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold animate-fade-in">Your Good Deeds</h1>
-        </div>
-        
-        <div className="mb-8 animate-fade-in">
-          <CalendarView />
         </div>
         
         <div className="flex flex-col gap-8 animate-fade-in">
