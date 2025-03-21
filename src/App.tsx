@@ -8,11 +8,12 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Tracker from "./pages/Dashboard"; // Renamed to Tracker
+import Schedule from "./pages/Schedule"; // Import the new Schedule page
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Ideas from "./pages/Ideas";
-import Community from "./pages/Community"; // Import the new Community page
+import Community from "./pages/Community";
 
 // Create standalone Stats page to simplify routing
 import Stats from "@/components/Stats";
@@ -49,6 +50,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Tracker />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/schedule" 
+              element={
+                <ProtectedRoute>
+                  <Schedule />
                 </ProtectedRoute>
               } 
             />
