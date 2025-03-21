@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -145,7 +146,11 @@ const IdeasPage: React.FC = () => {
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Random Prompt
               </Button>
-              <Button type="submit" disabled={isLoading}>
+              <Button 
+                type="submit" 
+                disabled={isLoading}
+                className="bg-primary hover:bg-primary/70 transition-colors"
+              >
                 {isLoading ? (
                   <>
                     <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
