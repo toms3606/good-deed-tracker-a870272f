@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Sparkles, SendHorizonal, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 
-// Sample prompts to help users get started
 const SAMPLE_PROMPTS = [
   "What's a simple act of kindness I can do for a coworker?",
   "How can I help an elderly neighbor?",
@@ -16,7 +14,6 @@ const SAMPLE_PROMPTS = [
   "How can I show kindness to someone going through a hard time?"
 ];
 
-// Pre-defined kind act suggestions to simulate AI responses
 const KIND_ACT_SUGGESTIONS = [
   "Write a handwritten note of appreciation for a coworker or family member.",
   "Offer to help an elderly neighbor with grocery shopping or yard work.",
@@ -46,7 +43,6 @@ const IdeasPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
-  // Function to generate a response based on a prompt
   const generateResponse = async (userPrompt: string) => {
     if (!userPrompt.trim()) {
       toast({
@@ -60,15 +56,12 @@ const IdeasPage: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Get random suggestions (2-3 suggestions)
-      const numSuggestions = Math.floor(Math.random() * 2) + 2; // 2 or 3
+      const numSuggestions = Math.floor(Math.random() * 2) + 2;
       const shuffled = [...KIND_ACT_SUGGESTIONS].sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, numSuggestions);
       
-      // Format response
       const formattedResponse = `Here are some acts of kindness you could try:\n\n${selected.map(s => `• ${s}`).join('\n\n')}`;
       
       setResponse(formattedResponse);
@@ -83,13 +76,11 @@ const IdeasPage: React.FC = () => {
     }
   };
 
-  // Function to handle prompt submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     generateResponse(prompt);
   };
 
-  // Function to use a sample prompt
   const handleUseSamplePrompt = (samplePrompt: string) => {
     setPrompt(samplePrompt);
     generateResponse(samplePrompt);
@@ -142,7 +133,7 @@ const IdeasPage: React.FC = () => {
                   const randomIndex = Math.floor(Math.random() * SAMPLE_PROMPTS.length);
                   setPrompt(SAMPLE_PROMPTS[randomIndex]);
                 }}
-                className="hover:bg-primary/30 transition-colors"
+                className="hover:bg-primary/30 hover:text-foreground transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Random Prompt
@@ -180,7 +171,7 @@ const IdeasPage: React.FC = () => {
                 variant="outline" 
                 onClick={() => generateResponse(prompt)}
                 disabled={isLoading}
-                className="hover:bg-primary/30 transition-colors"
+                className="hover:bg-primary/30 hover:text-foreground transition-colors"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Generate More Ideas
