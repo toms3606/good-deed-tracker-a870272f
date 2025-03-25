@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Map } from 'lucide-react';
@@ -215,7 +216,7 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
       <CardContent>
         <div ref={mapRef} className="h-[400px] rounded-md w-full" />
         <p className="text-xs text-muted-foreground mt-2 text-center">
-          Map showing good deeds from community members around the world
+          Changing the world for good
         </p>
       </CardContent>
     </Card>
