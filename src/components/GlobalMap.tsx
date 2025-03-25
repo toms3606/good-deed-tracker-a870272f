@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Map } from 'lucide-react';
@@ -16,12 +15,11 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
-  const [mapToken, setMapToken] = useState<string>('');
+  const [mapToken, setMapToken] = useState<string>("pk.eyJ1Ijoid2VzdHdhcmRtYXJrZXRpbmdsYWIiLCJhIjoiY204b210dGtnMDF6cDJubXp6eWsxdnp2ZSJ9.FpVok5j0vR8lLFqgt4cEIA");
   const [deedLocations, setDeedLocations] = useState<Array<{deed: Deed, lat: number, lng: number}>>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const { toast } = useToast();
 
-  // Load token from localStorage on initial render
   useEffect(() => {
     const savedToken = localStorage.getItem('mapbox_token');
     if (savedToken) {
@@ -29,8 +27,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     }
   }, []);
 
-  // Mock locations for demonstration
-  // In a real app, these would come from user profiles or geocoding the deed locations
   const mockLocations = [
     { lat: 40.7128, lng: -74.0060 }, // New York
     { lat: 34.0522, lng: -118.2437 }, // Los Angeles
@@ -44,7 +40,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     { lat: 37.7749, lng: -122.4194 }, // San Francisco
   ];
 
-  // Get impact color
   const getImpactColor = (impact: string): string => {
     switch (impact) {
       case 'small': return '#10b981'; // green
@@ -54,12 +49,10 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     }
   };
 
-  // Handle Mapbox token input
   const handleTokenInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMapToken(e.target.value);
   };
 
-  // Save token to localStorage when user submits
   const handleSaveToken = () => {
     if (mapToken.trim()) {
       localStorage.setItem('mapbox_token', mapToken);
@@ -70,15 +63,12 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     }
   };
 
-  // Initialize map when token is available
   useEffect(() => {
     if (!mapToken || !mapRef.current || mapLoaded) return;
     
     try {
-      // Initialize Mapbox
       mapboxgl.accessToken = mapToken;
       
-      // Create map instance
       mapInstance.current = new mapboxgl.Map({
         container: mapRef.current,
         style: 'mapbox://styles/mapbox/light-v11',
@@ -87,13 +77,11 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
         projection: 'globe'
       });
 
-      // Add navigation controls
       mapInstance.current.addControl(
         new mapboxgl.NavigationControl(),
         'top-right'
       );
 
-      // Add fog effect
       mapInstance.current.on('style.load', () => {
         mapInstance.current?.setFog({
           color: 'rgb(255, 255, 255)',
@@ -102,32 +90,24 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
         });
       });
 
-      // Get deeds data
       const deeds = getDeeds();
       
-      // Filter deeds based on status filter
       const filteredDeeds = statusFilter === 'all' 
         ? deeds 
         : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
       
-      // Add markers for each deed location
       const deedWithLocations = filteredDeeds.map((deed, index) => {
-        // Assign a mock location to each deed (in a real app, use actual locations)
         const location = mockLocations[index % mockLocations.length];
         return { deed, ...location };
       });
       
       setDeedLocations(deedWithLocations);
 
-      // Add markers when map loads
       mapInstance.current.on('load', () => {
-        // Clear existing markers
         markersRef.current.forEach(marker => marker.remove());
         markersRef.current = [];
         
-        // Add markers to map
         deedWithLocations.forEach(({ deed, lat, lng }) => {
-          // Create custom marker element
           const el = document.createElement('div');
           el.className = 'custom-marker';
           el.style.backgroundColor = getImpactColor(deed.impact);
@@ -136,7 +116,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
           el.style.borderRadius = '50%';
           el.style.border = '2px solid #fff';
           
-          // Create popup
           const popup = new mapboxgl.Popup({ offset: 25 })
             .setHTML(`
               <div style="padding: 8px;">
@@ -146,7 +125,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
               </div>
             `);
           
-          // Create and store marker
           const marker = new mapboxgl.Marker(el)
             .setLngLat([lng, lat])
             .setPopup(popup)
@@ -168,7 +146,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     }
   }, [mapToken, statusFilter]);
 
-  // Clean up on unmount
   useEffect(() => {
     return () => {
       if (mapInstance.current) {
@@ -177,35 +154,27 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     };
   }, []);
 
-  // Update markers when status filter changes
   useEffect(() => {
     if (!mapLoaded || !mapInstance.current) return;
     
     try {
-      // Get deeds data
       const deeds = getDeeds();
       
-      // Filter deeds based on status filter
       const filteredDeeds = statusFilter === 'all' 
         ? deeds 
         : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
       
-      // Add markers for each deed location
       const deedWithLocations = filteredDeeds.map((deed, index) => {
-        // Assign a mock location to each deed (in a real app, use actual locations)
         const location = mockLocations[index % mockLocations.length];
         return { deed, ...location };
       });
       
       setDeedLocations(deedWithLocations);
       
-      // Clear existing markers
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];
       
-      // Add markers to map
       deedWithLocations.forEach(({ deed, lat, lng }) => {
-        // Create custom marker element
         const el = document.createElement('div');
         el.className = 'custom-marker';
         el.style.backgroundColor = getImpactColor(deed.impact);
@@ -214,7 +183,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
         el.style.borderRadius = '50%';
         el.style.border = '2px solid #fff';
         
-        // Create popup
         const popup = new mapboxgl.Popup({ offset: 25 })
           .setHTML(`
             <div style="padding: 8px;">
@@ -224,7 +192,6 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
             </div>
           `);
         
-        // Create and store marker
         const marker = new mapboxgl.Marker(el)
           .setLngLat([lng, lat])
           .setPopup(popup)
@@ -246,35 +213,10 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {!mapToken ? (
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Please enter your Mapbox access token to view the map. You can get a free token at <a href="https://mapbox.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">mapbox.com</a>.
-            </p>
-            <div className="flex gap-2">
-              <input 
-                type="text" 
-                value={mapToken} 
-                onChange={handleTokenInput}
-                placeholder="Enter your Mapbox token" 
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              <button 
-                onClick={handleSaveToken}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-primary text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div ref={mapRef} className="h-[400px] rounded-md w-full" />
-            <p className="text-xs text-muted-foreground mt-2 text-center">
-              Map showing good deeds from community members around the world
-            </p>
-          </>
-        )}
+        <div ref={mapRef} className="h-[400px] rounded-md w-full" />
+        <p className="text-xs text-muted-foreground mt-2 text-center">
+          Map showing good deeds from community members around the world
+        </p>
       </CardContent>
     </Card>
   );
