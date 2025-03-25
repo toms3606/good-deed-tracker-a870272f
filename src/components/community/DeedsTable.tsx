@@ -25,7 +25,7 @@ const DeedsTable: React.FC<DeedsTableProps> = ({ deeds, statusFilter }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredDeeds, setFilteredDeeds] = useState<Deed[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10; // Changed from 5 to 10 results per page
 
   // Filter deeds when search query or status filter changes
   useEffect(() => {
