@@ -21,6 +21,14 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
   const [mapLoaded, setMapLoaded] = useState(false);
   const { toast } = useToast();
 
+  // Load token from localStorage on initial render
+  useEffect(() => {
+    const savedToken = localStorage.getItem('mapbox_token');
+    if (savedToken) {
+      setMapToken(savedToken);
+    }
+  }, []);
+
   // Mock locations for demonstration
   // In a real app, these would come from user profiles or geocoding the deed locations
   const mockLocations = [
@@ -49,6 +57,17 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
   // Handle Mapbox token input
   const handleTokenInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMapToken(e.target.value);
+  };
+
+  // Save token to localStorage when user submits
+  const handleSaveToken = () => {
+    if (mapToken.trim()) {
+      localStorage.setItem('mapbox_token', mapToken);
+      toast({
+        title: "Token Saved",
+        description: "Your Mapbox token has been saved for future sessions.",
+      });
+    }
   };
 
   // Initialize map when token is available
@@ -240,6 +259,12 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
                 placeholder="Enter your Mapbox token" 
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
+              <button 
+                onClick={handleSaveToken}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-primary text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+              >
+                Save
+              </button>
             </div>
           </div>
         ) : (
