@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin } from 'lucide-react';
+import { MapPin, Map } from 'lucide-react';
 import { Deed } from '@/types/deed';
 import { getDeeds } from '@/utils/deedUtils';
 import { useToast } from '@/hooks/use-toast';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface GlobalMapProps {
   statusFilter: 'all' | 'completed' | 'pending';
@@ -12,6 +14,9 @@ interface GlobalMapProps {
 
 const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<mapboxgl.Map | null>(null);
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const [mapToken, setMapToken] = useState<string>('');
   const [deedLocations, setDeedLocations] = useState<Array<{deed: Deed, lat: number, lng: number}>>([]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const { toast } = useToast();
@@ -31,124 +36,7 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     { lat: 37.7749, lng: -122.4194 }, // San Francisco
   ];
 
-  useEffect(() => {
-    // Initialize Google Maps
-    const initializeMap = async () => {
-      try {
-        // Check if Google Maps API is already loaded
-        if (!window.google) {
-          const script = document.createElement('script');
-          script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap`;
-          script.async = true;
-          script.defer = true;
-          
-          // Define the callback function
-          window.initMap = () => {
-            loadMap();
-          };
-          
-          document.head.appendChild(script);
-        } else {
-          loadMap();
-        }
-      } catch (error) {
-        console.error("Error initializing map:", error);
-        toast({
-          title: "Map Error",
-          description: "Could not load the map. Please try again later.",
-          variant: "destructive",
-        });
-      }
-    };
-
-    // Function to actually create the map
-    const loadMap = () => {
-      if (mapRef.current && window.google) {
-        // Create map instance
-        const map = new window.google.maps.Map(mapRef.current, {
-          center: { lat: 20, lng: 0 },
-          zoom: 2,
-          mapTypeId: 'terrain',
-          mapTypeControl: true,
-          streetViewControl: false,
-          fullscreenControl: true,
-          zoomControl: true,
-          styles: [
-            {
-              featureType: "water",
-              elementType: "geometry",
-              stylers: [
-                { color: "#e9e9e9" },
-                { lightness: 17 }
-              ]
-            },
-            {
-              featureType: "landscape",
-              elementType: "geometry",
-              stylers: [
-                { color: "#f5f5f5" },
-                { lightness: 20 }
-              ]
-            }
-          ]
-        });
-
-        // Get deeds data
-        const deeds = getDeeds();
-        
-        // Filter deeds based on status filter
-        const filteredDeeds = statusFilter === 'all' 
-          ? deeds 
-          : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
-        
-        // Add markers for each deed location
-        const deedWithLocations = filteredDeeds.map((deed, index) => {
-          // Assign a mock location to each deed (in a real app, use actual locations)
-          const location = mockLocations[index % mockLocations.length];
-          return { deed, ...location };
-        });
-        
-        setDeedLocations(deedWithLocations);
-        
-        // Add markers to map
-        deedWithLocations.forEach(({ deed, lat, lng }) => {
-          const marker = new window.google.maps.Marker({
-            position: { lat, lng },
-            map: map,
-            title: deed.title,
-            icon: {
-              path: window.google.maps.SymbolPath.CIRCLE,
-              fillColor: getImpactColor(deed.impact),
-              fillOpacity: 0.9,
-              strokeWeight: 2,
-              strokeColor: '#ffffff',
-              scale: 10,
-            }
-          });
-          
-          // Add info window with deed info
-          const infoWindow = new window.google.maps.InfoWindow({
-            content: `
-              <div style="padding: 8px;">
-                <strong>${deed.title}</strong>
-                <p>Category: ${deed.category}</p>
-                <p>Impact: ${deed.impact}</p>
-              </div>
-            `
-          });
-          
-          marker.addListener("click", () => {
-            infoWindow.open(map, marker);
-          });
-        });
-        
-        setMapLoaded(true);
-      }
-    };
-    
-    initializeMap();
-  }, [statusFilter]); // Add statusFilter as a dependency
-  
+  // Get impact color
   const getImpactColor = (impact: string): string => {
     switch (impact) {
       case 'small': return '#10b981'; // green
@@ -158,30 +46,213 @@ const GlobalMap: React.FC<GlobalMapProps> = ({ statusFilter }) => {
     }
   };
 
+  // Handle Mapbox token input
+  const handleTokenInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMapToken(e.target.value);
+  };
+
+  // Initialize map when token is available
+  useEffect(() => {
+    if (!mapToken || !mapRef.current || mapLoaded) return;
+    
+    try {
+      // Initialize Mapbox
+      mapboxgl.accessToken = mapToken;
+      
+      // Create map instance
+      mapInstance.current = new mapboxgl.Map({
+        container: mapRef.current,
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [0, 20],
+        zoom: 1.5,
+        projection: 'globe'
+      });
+
+      // Add navigation controls
+      mapInstance.current.addControl(
+        new mapboxgl.NavigationControl(),
+        'top-right'
+      );
+
+      // Add fog effect
+      mapInstance.current.on('style.load', () => {
+        mapInstance.current?.setFog({
+          color: 'rgb(255, 255, 255)',
+          'high-color': 'rgb(200, 200, 225)',
+          'horizon-blend': 0.2,
+        });
+      });
+
+      // Get deeds data
+      const deeds = getDeeds();
+      
+      // Filter deeds based on status filter
+      const filteredDeeds = statusFilter === 'all' 
+        ? deeds 
+        : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
+      
+      // Add markers for each deed location
+      const deedWithLocations = filteredDeeds.map((deed, index) => {
+        // Assign a mock location to each deed (in a real app, use actual locations)
+        const location = mockLocations[index % mockLocations.length];
+        return { deed, ...location };
+      });
+      
+      setDeedLocations(deedWithLocations);
+
+      // Add markers when map loads
+      mapInstance.current.on('load', () => {
+        // Clear existing markers
+        markersRef.current.forEach(marker => marker.remove());
+        markersRef.current = [];
+        
+        // Add markers to map
+        deedWithLocations.forEach(({ deed, lat, lng }) => {
+          // Create custom marker element
+          const el = document.createElement('div');
+          el.className = 'custom-marker';
+          el.style.backgroundColor = getImpactColor(deed.impact);
+          el.style.width = '20px';
+          el.style.height = '20px';
+          el.style.borderRadius = '50%';
+          el.style.border = '2px solid #fff';
+          
+          // Create popup
+          const popup = new mapboxgl.Popup({ offset: 25 })
+            .setHTML(`
+              <div style="padding: 8px;">
+                <strong>${deed.title}</strong>
+                <p>Category: ${deed.category}</p>
+                <p>Impact: ${deed.impact}</p>
+              </div>
+            `);
+          
+          // Create and store marker
+          const marker = new mapboxgl.Marker(el)
+            .setLngLat([lng, lat])
+            .setPopup(popup)
+            .addTo(mapInstance.current!);
+            
+          markersRef.current.push(marker);
+        });
+        
+        setMapLoaded(true);
+      });
+      
+    } catch (error) {
+      console.error("Error initializing map:", error);
+      toast({
+        title: "Map Error",
+        description: "Could not load the map. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  }, [mapToken, statusFilter]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+      }
+    };
+  }, []);
+
+  // Update markers when status filter changes
+  useEffect(() => {
+    if (!mapLoaded || !mapInstance.current) return;
+    
+    try {
+      // Get deeds data
+      const deeds = getDeeds();
+      
+      // Filter deeds based on status filter
+      const filteredDeeds = statusFilter === 'all' 
+        ? deeds 
+        : deeds.filter(deed => statusFilter === 'completed' ? deed.completed : !deed.completed);
+      
+      // Add markers for each deed location
+      const deedWithLocations = filteredDeeds.map((deed, index) => {
+        // Assign a mock location to each deed (in a real app, use actual locations)
+        const location = mockLocations[index % mockLocations.length];
+        return { deed, ...location };
+      });
+      
+      setDeedLocations(deedWithLocations);
+      
+      // Clear existing markers
+      markersRef.current.forEach(marker => marker.remove());
+      markersRef.current = [];
+      
+      // Add markers to map
+      deedWithLocations.forEach(({ deed, lat, lng }) => {
+        // Create custom marker element
+        const el = document.createElement('div');
+        el.className = 'custom-marker';
+        el.style.backgroundColor = getImpactColor(deed.impact);
+        el.style.width = '20px';
+        el.style.height = '20px';
+        el.style.borderRadius = '50%';
+        el.style.border = '2px solid #fff';
+        
+        // Create popup
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`
+            <div style="padding: 8px;">
+              <strong>${deed.title}</strong>
+              <p>Category: ${deed.category}</p>
+              <p>Impact: ${deed.impact}</p>
+            </div>
+          `);
+        
+        // Create and store marker
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat([lng, lat])
+          .setPopup(popup)
+          .addTo(mapInstance.current!);
+          
+        markersRef.current.push(marker);
+      });
+    } catch (error) {
+      console.error("Error updating markers:", error);
+    }
+  }, [statusFilter, mapLoaded]);
+
   return (
     <Card className="glass-card animate-fade-in">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
+          <Map className="h-5 w-5" />
           Global Good Deeds Map
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div ref={mapRef} className="h-[400px] rounded-md w-full" />
-        <p className="text-xs text-muted-foreground mt-2 text-center">
-          Map showing good deeds from community members around the world
-        </p>
+        {!mapToken ? (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Please enter your Mapbox access token to view the map. You can get a free token at <a href="https://mapbox.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">mapbox.com</a>.
+            </p>
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                value={mapToken} 
+                onChange={handleTokenInput}
+                placeholder="Enter your Mapbox token" 
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
+          </div>
+        ) : (
+          <>
+            <div ref={mapRef} className="h-[400px] rounded-md w-full" />
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              Map showing good deeds from community members around the world
+            </p>
+          </>
+        )}
       </CardContent>
     </Card>
   );
 };
-
-// Add type definition for the global initMap function
-declare global {
-  interface Window {
-    google: any;
-    initMap: () => void;
-  }
-}
 
 export default GlobalMap;
